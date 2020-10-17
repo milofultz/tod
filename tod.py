@@ -73,7 +73,7 @@ if __name__ == "__main__":
 
         if not command:
             print(Colors.WHITE + "Try 'help' for more information.\n" + Colors.NORMAL)
-        elif re.match('\d+', command):
+        elif re.match('\d+$', command):
             number = int(command)
             if tasks[number][2]:
                 cls()
