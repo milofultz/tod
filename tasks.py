@@ -19,9 +19,9 @@ def delete_task(tasks, index):
     return tasks
 
 
-def update_task(tasks, task_name, timebox: str, index):
+def update_task(tasks, task_name, timebox: str, completed, index):
     """Return tasks with task at index updated"""
-    tasks[index] = (task_name, timebox, False)
+    tasks[index] = (task_name, timebox, completed)
     return tasks
 
 

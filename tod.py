@@ -2,13 +2,13 @@ from pathlib import Path
 import re
 import sys
 
-from utilities import (cls, show_help, Colors,
-                       load_data, save_data,
-                       get_tasks, format_tasks,
-                       get_mit,
-                       task_number_input, task_name_input, task_time_input)
+from utilities import (cls, show_help, Colors, load_data, save_data,
+                       get_tasks, format_tasks, get_mit,
+                       task_number_input, task_name_input, task_time_input,
+                       timer)
 from tasks import (add_task, set_completion, delete_task, update_task,
                    move_task, reduce_tasks)
+
 
 # Constants
 
@@ -34,15 +34,15 @@ def start(mit: str = None):
     """Start new task list and return with new tasks"""
     tasks = []
 
-    if mit is not None:
+    if mit is not None and ' (Completed)' not in mit:
         print()
-        print('MIT from Track:\n')
+        print(Colors.BLUE + 'MIT from Track:\n' + Colors.NORMAL)
         print(f'Task Name: {mit}')
         timebox = task_time_input()
         tasks = add_task(tasks, mit, timebox)
 
-    print()
     while True:
+        print()
         task_name = task_name_input()
         if not task_name:
             break
@@ -61,29 +61,27 @@ if __name__ == "__main__":
     cls()
     while True:
         show_tasks(tasks)
-        command = input('-> ').lower()
+        command = input('► ').lower()
 
         cls()
-        number = int(command[1:]) if re.match('\d+', command[1:]) else None
-        if number and number >= len(tasks):
+        number = (int(command[1:]) 
+                  if re.match('[A-Za-z]\d+', command) 
+                  else None)
+        if number is not None and number >= len(tasks):
             print(Colors.RED + "No such task.\n" + Colors.NORMAL)
             continue
 
         if not command:
             print(Colors.WHITE + "Try 'help' for more information.\n" + Colors.NORMAL)
         elif re.match('\d+', command):
-            # Create timer that utilizes the timeboxes of tasks
-            #   Starts timer and counts down
-            #   Shows task with timer on screen so you can remember
-            #
-            #   Returns elapsed time
-            #       Manual quit returns total elapsed
-            #       On timer completion, returns elapsed time
-            #   If elapsed time == timebox
-            #       mark as complete
-            #   else:
-            #       reduce timebox by elapsed time
-            pass
+            number = int(command)
+            if tasks[number][2]:
+                cls()
+                print(Colors.GREEN + 'Task already complete.\n' + Colors.NORMAL)
+                continue
+            task = timer(tasks[number])
+            tasks[number] = task
+            cls()
         elif 'a' in command[0]:
             print()
             task_name = task_name_input()
@@ -115,12 +113,13 @@ if __name__ == "__main__":
                 number = task_number_input(len(tasks))
                 cls()
             if number is not None:
-                task_name, timebox, _ = tasks[number]
+                task_name, timebox, completed = tasks[number]
                 print('\n' + Colors.BLUE + "Original Task:" + Colors.NORMAL)
                 print(f"\n{task_name} ({timebox})\n")
                 task_name = task_name_input(task_name)
                 timebox = task_time_input(timebox)
-                tasks = update_task(tasks, task_name, timebox, number)
+                tasks = update_task(tasks, task_name, timebox,
+                                    completed, number)
                 cls()
                 print(Colors.PURPLE + 'Task updated.\n' + Colors.NORMAL)
         elif 'h' in command[0]:
@@ -146,6 +145,7 @@ if __name__ == "__main__":
                 tasks = start(mit)
             except FileNotFoundError:
                 tasks = start()
+            cls()
         else:
             print(Colors.WHITE + "Try 'help' for more information.\n" + Colors.NORMAL)
 

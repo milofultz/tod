@@ -1,4 +1,6 @@
+import math
 import re
+from time import sleep
 
 
 class Colors:
@@ -23,6 +25,7 @@ def show_help():
           'tod: Plan and manage your daily tasks\n'
           '\n' +
           'CLI Commands:\n' +
+          '  [n]     Start focus time and timer for task `n`\n' +
           '  a[n]    (A)dd task at index `n`\n' +
           '  c[n]    Set (C)ompletion of task `n`\n' +
           '  d[n]    (D)elete task `n`\n' +
@@ -114,3 +117,35 @@ def task_time_input(prev_timebox: str = None):
             return prev_timebox
         print('Please ensure your input matches `H:MM`.')
     return timebox
+
+
+def timer(task: tuple):
+    task_name, timebox, completed = task
+
+    hours, minutes = timebox.split(':')
+    timebox_s = ((int(hours) * 60) + int(minutes)) * 60
+    elapsed_s = 0
+
+    while elapsed_s <= timebox_s:
+        cls()
+        print(Colors.YELLOW + task_name + Colors.NORMAL + '\n')
+        print('Elapsed Time: ' +
+              f'{elapsed_s // 3600}:' +
+              f'{(elapsed_s // 60):02}:' +
+              f'{(elapsed_s % 60):02}' + '\n')
+        print(Colors.WHITE +
+              'Press `Ctrl + C` to stop the timer' +
+              Colors.NORMAL + '\n')
+        try:
+            sleep(1)
+            elapsed_s += 1
+        except KeyboardInterrupt:
+            break
+
+    if elapsed_s >= timebox_s:
+        print('\a')
+        return task_name, "0:00", True
+
+    seconds = timebox_s - elapsed_s
+    hours, minutes = divmod(math.ceil(seconds / 60), 60)
+    return task_name, f"{hours:01}:{minutes:02}", False
