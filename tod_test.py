@@ -95,5 +95,6 @@ class TestTaskListMethods(unittest.TestCase):
         test1_reduce_actual = reduce_tasks(test1_reduce_list)
         self.assertEqual(test1_reduce_actual, test1_reduce_expected)
 
+
 if __name__ == '__main__':
     unittest.main()
