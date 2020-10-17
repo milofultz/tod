@@ -19,6 +19,6 @@ Saves tasks in an easy to read plaintext file in the root folder called `~/.tod`
 
 ### Future Improvements
 
-* Integrate with Track
-	* Pull MIT from previous day and add it on `s`tart
+* ~~Integrate with Track~~
+	* ~~Pull MIT from previous day and add it on `s`tart~~
 	* ~~Have Track pull completed tasks from list for accomplishment tracking~~
