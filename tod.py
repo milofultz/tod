@@ -14,6 +14,7 @@ from tasks import (add_task, set_completion, delete_task, update_task,
 
 TOD_FP = str(Path.home()) + '/.tod'
 TRACK_FP = str(Path.home()) + '/.track'
+POMODORO_TIME = '0:25'
 
 
 # Actions
@@ -24,9 +25,13 @@ def show_tasks(tasks: list):
     if len(tasks) == 0:
         print('No tasks.')
     for index, task in enumerate(tasks):
-        task_name, timebox, completed = task
+        task_name, time_spent, completed = task
+        if time_spent == '0:00':
+            time_spent = ''
+        else:
+            time_spent = f'({time_spent})'
         text_color = Colors.GREEN if completed else Colors.NORMAL
-        print(f"{index}. {text_color}{task_name} ({timebox}){Colors.NORMAL}")
+        print(f"{index}. {text_color}{task_name} {time_spent}{Colors.NORMAL}")
     print('\n')
 
 
@@ -38,16 +43,16 @@ def start(mit: str = None):
         print()
         print(Colors.BLUE + 'MIT from Track:\n' + Colors.NORMAL)
         print(f'Task Name: {mit}')
-        timebox = task_time_input()
-        tasks = add_task(tasks, mit, timebox)
+        time_spent = '0:00'
+        tasks = add_task(tasks, mit, time_spent)
 
     while True:
         print()
         task_name = task_name_input()
         if not task_name:
             break
-        timebox = task_time_input()
-        tasks = add_task(tasks, task_name, timebox)
+        time_spent = '0:00'
+        tasks = add_task(tasks, task_name, time_spent)
     return tasks
 
 
@@ -79,14 +84,19 @@ if __name__ == "__main__":
                 cls()
                 print(Colors.GREEN + 'Task already complete.\n' + Colors.NORMAL)
                 continue
-            task = timer(tasks[number])
+            print(Colors.WHITE +
+                  'Default timer length is: ' +
+                  Colors.RED + POMODORO_TIME + Colors.NORMAL)
+            length = task_time_input(POMODORO_TIME)
+            task = timer(tasks[number], length)
             tasks[number] = task
             cls()
+            print(Colors.PURPLE + 'Elapsed time added.\n' + Colors.NORMAL)
         elif 'a' in command[0]:
             print()
             task_name = task_name_input()
-            timebox = task_time_input()
-            tasks = add_task(tasks, task_name, timebox, number)
+            time_spent = task_time_input()
+            tasks = add_task(tasks, task_name, time_spent, number)
             cls()
             print(Colors.PURPLE + 'Task added.\n' + Colors.NORMAL)
         elif 'c' in command[0]:
@@ -113,12 +123,12 @@ if __name__ == "__main__":
                 number = task_number_input(len(tasks))
                 cls()
             if number is not None:
-                task_name, timebox, completed = tasks[number]
+                task_name, time_spent, completed = tasks[number]
                 print('\n' + Colors.BLUE + "Original Task:" + Colors.NORMAL)
-                print(f"\n{task_name} ({timebox})\n")
+                print(f"\n{task_name} ({time_spent})\n")
                 task_name = task_name_input(task_name)
-                timebox = task_time_input(timebox)
-                tasks = update_task(tasks, task_name, timebox,
+                time_spent = task_time_input(time_spent)
+                tasks = update_task(tasks, task_name, time_spent,
                                     completed, number)
                 cls()
                 print(Colors.PURPLE + 'Task updated.\n' + Colors.NORMAL)

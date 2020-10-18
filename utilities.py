@@ -1,4 +1,3 @@
-import math
 import re
 from time import sleep
 
@@ -60,12 +59,12 @@ def get_tasks(data):
         if task == '' or task[0] != '[':
             continue
         task_name = task[4:-7]
-        timebox = task[-5:-1]
+        time_spent = task[-5:-1]
         if task[1] == 'X':
             completed = True
         else:
             completed = False
-        tasks.append((task_name, timebox, completed))
+        tasks.append((task_name, time_spent, completed))
 
     return tasks
 
@@ -75,9 +74,9 @@ def format_tasks(tasks: list):
     formatted_data = ''
 
     for task in tasks:
-        task_name, timebox, completed = task
+        task_name, time_spent, completed = task
         completed = '[X]' if completed else '[ ]'
-        formatted_data += f'{completed} {task_name} ({timebox})'
+        formatted_data += f'{completed} {task_name} ({time_spent})'
         formatted_data += '\n'
 
     return formatted_data
@@ -107,28 +106,32 @@ def task_name_input(prev_name=None):
     return task_name
 
 
-def task_time_input(prev_timebox: str = None):
+def task_time_input(default_time: str = None):
     """Validate task time input"""
     while True:
-        timebox = input('Task Time: ')
-        if len(timebox) == 4 and re.match('\d:[0-6]\d', timebox):
+        time_spent = input('Task Time: ')
+        if len(time_spent) == 4 and re.match('\d:[0-6]\d', time_spent):
             break
-        elif timebox == '' and prev_timebox:
-            return prev_timebox
+        elif time_spent == '' and default_time:
+            return default_time
+        elif time_spent == '':
+            return '0:00'
         print('Please ensure your input matches `H:MM`.')
-    return timebox
+    return time_spent
 
 
-def timer(task: tuple):
-    task_name, timebox, completed = task
+def timer(task: tuple, timer_length: str):
+    task_name, prev_time_spent, completed = task
 
-    hours, minutes = timebox.split(':')
-    timebox_s = ((int(hours) * 60) + int(minutes)) * 60
+    hours, minutes = timer_length.split(':')
+    timer_length_s = ((int(hours) * 60) + int(minutes)) * 60
     elapsed_s = 0
 
-    while elapsed_s <= timebox_s:
+    while elapsed_s <= timer_length_s:
         cls()
         print(Colors.YELLOW + task_name + Colors.NORMAL + '\n')
+        print('Timer Length: ' +
+              Colors.GREEN + f"{timer_length}:00" + Colors.NORMAL)
         print('Elapsed Time: ' +
               f'{elapsed_s // 3600}:' +
               f'{(elapsed_s // 60):02}:' +
@@ -142,10 +145,12 @@ def timer(task: tuple):
         except KeyboardInterrupt:
             break
 
-    if elapsed_s >= timebox_s:
+    if elapsed_s >= timer_length_s:
         print('\a')
-        return task_name, "0:00", True
 
-    seconds = timebox_s - elapsed_s
-    hours, minutes = divmod(math.ceil(seconds / 60), 60)
+    prev_hours, prev_minutes = prev_time_spent.split(':')
+    prev_s = ((int(prev_hours) * 60) + int(prev_minutes)) * 60
+
+    seconds = elapsed_s + prev_s
+    hours, minutes = divmod(seconds // 60, 60)
     return task_name, f"{hours:01}:{minutes:02}", False
