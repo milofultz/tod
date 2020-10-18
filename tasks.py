@@ -8,8 +8,8 @@ def add_task(tasks, task_name, timebox: str, index=None):
 
 def set_completion(tasks, index):
     """Return tasks with task completion flipped"""
-    task_name, timebox, completed = tasks[index]
-    tasks[index] = (task_name, timebox, not completed)
+    task_name, time_spent, completed = tasks[index]
+    tasks[index] = (task_name, time_spent, not completed)
     return tasks
 
 
