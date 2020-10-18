@@ -44,3 +44,4 @@ Take the above code and copy it into your `~/.bash_profile` file. After
 	* ~~Add integration features to README~~
 	* ~~Pull MIT from previous day and add it on `s`tart~~
 	* ~~Have Track pull completed tasks from list for accomplishment tracking~~
+* Instead of 'timeboxing', have the time be logged time and then explicitly give the timer how long you want to work in minutes or hours:minutes.
