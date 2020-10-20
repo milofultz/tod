@@ -110,7 +110,10 @@ def task_time_input(default_time: str = None):
     """Validate task time input"""
     while True:
         time_spent = input('Task Time: ')
-        if len(time_spent) == 4 and re.match('\d:[0-6]\d', time_spent):
+        if re.match('\d:[0-6]\d', time_spent):
+            break
+        elif re.match('[0-6]?\d', time_spent):
+            time_spent = f"0:{time_spent.zfill(2)}"
             break
         elif time_spent == '' and default_time:
             return default_time
@@ -146,7 +149,14 @@ def timer(task: tuple, timer_length: str):
             break
 
     if elapsed_s >= timer_length_s:
-        print('\a')
+        while True:
+            for i in range(5):
+                print('\a', end='', flush=True)
+                sleep(.1)
+            try:
+                sleep(1.5)
+            except KeyboardInterrupt:
+                break
 
     prev_hours, prev_minutes = prev_time_spent.split(':')
     prev_s = ((int(prev_hours) * 60) + int(prev_minutes)) * 60
