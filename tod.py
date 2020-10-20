@@ -95,7 +95,6 @@ if __name__ == "__main__":
         elif 'a' in command[0]:
             print()
             task_name = task_name_input()
-            time_spent = task_time_input()
             tasks = add_task(tasks, task_name, time_spent, number)
             cls()
             print(Colors.PURPLE + 'Task added.\n' + Colors.NORMAL)
