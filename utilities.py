@@ -150,10 +150,10 @@ def timer(task: tuple, timer_length: str):
 
     if elapsed_s >= timer_length_s:
         while True:
-            for i in range(5):
-                print('\a', end='', flush=True)
-                sleep(.1)
             try:
+                for i in range(5):
+                    print('\a', end='', flush=True)
+                    sleep(.1)
                 sleep(1.5)
             except KeyboardInterrupt:
                 break
