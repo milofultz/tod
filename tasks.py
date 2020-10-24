@@ -1,37 +1,40 @@
-def add_task(tasks, task_name, timebox: str, index=None):
+def add_task(task_list, task_name, time_spent: str, index: int = None):
     """Return tasks with task inserted at index"""
-    if not index:
-        index = len(tasks)
-    tasks.insert(index, (task_name, timebox, False))
-    return tasks
+    if index is None:
+        index = len(task_list)
+    new_task = {"name": task_name,
+                "time_spent": time_spent,
+                "completed": False}
+    task_list.insert(index, new_task)
+    return task_list
 
 
-def set_completion(tasks, index):
+def set_completion(task_list, index):
     """Return tasks with task completion flipped"""
-    task_name, time_spent, completed = tasks[index]
-    tasks[index] = (task_name, time_spent, not completed)
-    return tasks
+    task_list[index]["completed"] = not task_list[index]["completed"]
+    return task_list
 
 
-def delete_task(tasks, index):
+def delete_task(task_list, index):
     """Return tasks with task at index removed"""
-    del tasks[index]
-    return tasks
+    del task_list[index]
+    return task_list
 
 
-def update_task(tasks, task_name, timebox: str, completed, index):
+def update_task(task_list, task_name, time_spent: str, index):
     """Return tasks with task at index updated"""
-    tasks[index] = (task_name, timebox, completed)
-    return tasks
+    task_list[index]['name'] = task_name
+    task_list[index]['time_spent'] = time_spent
+    return task_list
 
 
-def move_task(tasks: list, from_index: int, to_index: int):
+def move_task(task_list, from_index, to_index):
     """Return tasks with tasks rearranged by index"""
-    tasks.insert(to_index, tasks.pop(from_index))
-    return tasks
+    task_list.insert(to_index, task_list.pop(from_index))
+    return task_list
 
 
-def reduce_tasks(tasks: list):
+def reduce_tasks(task_list):
     """Return tasks with completed tasks removed"""
-    tasks = [task for task in tasks if not task[2]]
-    return tasks
+    task_list = [task for task in task_list if not task["completed"]]
+    return task_list

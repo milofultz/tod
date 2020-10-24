@@ -1,28 +1,22 @@
 import re
-from time import sleep
+import time
+
+from config import (Colors, TERMINAL_HEIGHT, DEFAULT_TIMER_LENGTH)
+from tasks import add_task
 
 
-class Colors:
-    WHITE = "\033[97m"
-    RED = "\033[91m"
-    YELLOW = "\033[93m"
-    GREEN = "\033[92m"
-    CYAN = "\033[96m"
-    BLUE = '\033[94m'
-    PURPLE = '\033[95m'
-    NORMAL = '\033[0m'
+# Utilities
 
-
-def cls():
+def clear_screen():
     """Clear screen"""
-    print('\n' * 40)
+    print('\n' * TERMINAL_HEIGHT)
 
 
 def show_help():
     """Print help to screen."""
     print('\n' +
-          'tod: Plan and manage your daily tasks\n'
-          '\n' +
+          f'{Colors.BLACK_ON_WHITE}tod: Plan and manage your daily tasks{Colors.NORMAL}\n'
+          f'\n' +
           'CLI Commands:\n' +
           '  [n]     Start focus time and timer for task `n`\n' +
           '  a[n]    (A)dd task at index `n`\n' +
@@ -37,57 +31,49 @@ def show_help():
           '  s       (S)tart a new set of daily tasks\n')
 
 
-def load_data(fp):
+# Getters/Setters
+
+def load_data(filepath):
     """Return data from file to string"""
-    with open(fp, 'r') as f:
+    with open(filepath, 'r') as f:
         data = f.read()
     return data
 
 
-def save_data(data, fp):
+def save_data(data, filepath):
     """Save data to file"""
-    with open(fp, 'w') as f:
+    with open(filepath, 'w') as f:
         f.write(data)
 
 
-def get_tasks(data):
-    """Return list of task tuples from file"""
+def get_tasks(tod_file_data):
+    """Return list of task dicts from .tod file"""
     tasks = []
-    data = data.split('\n')
+    tod_file_data = tod_file_data.split('\n')
 
-    for task in data:
-        if task == '' or task[0] != '[':
+    for task_text in tod_file_data:
+        if task_text == '' or task_text[0] != '[':
             continue
-        task_name = task[4:-7]
-        time_spent = task[-5:-1]
-        if task[1] == 'X':
-            completed = True
-        else:
-            completed = False
-        tasks.append((task_name, time_spent, completed))
+        task_name = task_text[4:-7]
+        time_spent = task_text[-5:-1]
+        completed = True if task_text[1] == 'X' else False
+        tasks.append({
+            "name": task_name,
+            "time_spent": time_spent,
+            "completed": completed
+        })
 
     return tasks
 
 
-def format_tasks(tasks: list):
-    """Return formatted tasks for plaintext"""
-    formatted_data = ''
-
-    for task in tasks:
-        task_name, time_spent, completed = task
-        completed = '[X]' if completed else '[ ]'
-        formatted_data += f'{completed} {task_name} ({time_spent})'
-        formatted_data += '\n'
-
-    return formatted_data
-
-
-def get_mit(data):
+def get_last_mit(track_file_data):
     """Return recent MIT from track data"""
-    last_data = data.rsplit('\n> ', 1)
+    last_data = track_file_data.rsplit('\n> ', 1)
     mit, _ = last_data[1].split('\n', 1)
     return mit
 
+
+# Input Validation
 
 def task_number_input(length: int):
     """Validate task number input"""
@@ -123,48 +109,116 @@ def task_time_input(default_time: str = None):
     return time_spent
 
 
-def timer(task: tuple, timer_length: str):
-    task_name, prev_time_spent, completed = task
+# Helper Function
 
-    hours, minutes = timer_length.split(':')
-    timer_length_s = ((int(hours) * 60) + int(minutes)) * 60
-    elapsed_s = 0
+def start_new_task_list(mit_from_track: str = None):
+    """Start new task list and return with new tasks"""
+    tasks = []
 
-    while elapsed_s <= timer_length_s:
-        cls()
-        print(Colors.YELLOW + task_name + Colors.NORMAL + '\n')
-        print('Timer Length: ' +
-              Colors.GREEN + f"{timer_length}:00" + Colors.NORMAL)
-        print('Elapsed Time: ' +
-              f'{elapsed_s // 3600}:' +
-              f'{(elapsed_s // 60):02}:' +
-              f'{(elapsed_s % 60):02}' + '\n')
-        print(Colors.WHITE +
-              'Press `Ctrl + C` to stop the timer' +
-              Colors.NORMAL + '\n')
+    if mit_from_track is not None and ' (Completed)' not in mit_from_track:
+        print(Colors.BLUE + 'MIT from Track:' + Colors.NORMAL)
+        print(f'Task Name: {mit_from_track}')
+        tasks = add_task(tasks, mit_from_track, '0:00')
+        print()
+
+    while True:
+        task_name = task_name_input()
+        if not task_name:
+            break
+        time_spent = '0:00'
+        tasks = add_task(tasks, task_name, time_spent)
+
+    return tasks
+
+
+def print_all_tasks(tasks: list):
+    """Print tasks to screen"""
+    print('\n' + Colors.BLUE + 'TASKS:' + Colors.NORMAL + '\n')
+    if len(tasks) == 0:
+        print('No tasks.')
+    for index, task in enumerate(tasks):
+        text_color = Colors.GREEN if task['completed'] else Colors.NORMAL
+        print(f"{index}. {text_color}" +
+              f"{task['name']} ({task['time_spent']}){Colors.NORMAL}")
+    print()
+
+
+# String Formatting
+
+def format_seconds_to_time_spent(seconds: int):
+    hours = seconds // 3600
+    minutes = (seconds // 60) % 60
+    return f"{hours}:{minutes:02}"
+
+
+def format_tasks_to_plaintext(tasks: list):
+    """Return formatted tasks string"""
+    formatted_data = ''
+
+    for index, task in enumerate(tasks):
+        completed = '[X]' if task["completed"] else '[ ]'
+        formatted_data += (
+            f"{completed} {task['name']} ({task['time_spent']})")
+        if index != len(tasks) - 1:
+            formatted_data += '\n'
+
+    return formatted_data
+
+
+# Timer
+
+def spend_time_on_task(task_name):
+    """Return time spent on task"""
+    print(Colors.WHITE + 'Default timer length is: ' +
+          Colors.RED + DEFAULT_TIMER_LENGTH + Colors.NORMAL + '\n')
+    timer_length = task_time_input(DEFAULT_TIMER_LENGTH)
+
+    timestamp_before_timer = int(time.time())
+    timer(task_name, timer_length)
+    timestamp_after_timer = int(time.time())
+
+    return timestamp_after_timer - timestamp_before_timer
+
+
+def timer(task_name, timer_length: str):
+    timer_length_seconds = convert_time_spent_to_seconds(timer_length)
+
+    elapsed_seconds = 0
+    while elapsed_seconds <= timer_length_seconds:
         try:
-            sleep(1)
-            elapsed_s += 1
+            clear_screen()
+            print_timer_details(task_name, timer_length, elapsed_seconds)
+            time.sleep(1)
+            elapsed_seconds += 1
         except KeyboardInterrupt:
             break
 
-    if elapsed_s >= timer_length_s:
+    if elapsed_seconds >= timer_length_seconds:
         alarm(5)
-        
-    prev_hours, prev_minutes = prev_time_spent.split(':')
-    prev_s = ((int(prev_hours) * 60) + int(prev_minutes)) * 60
+    clear_screen()
 
-    seconds = elapsed_s + prev_s
-    hours, minutes = divmod(seconds // 60, 60)
-    return task_name, f"{hours:01}:{minutes:02}", False
+
+def convert_time_spent_to_seconds(length: str):
+    hours, minutes = length.split(':')
+    return (int(hours) * 60 + int(minutes)) * 60
+
+
+def print_timer_details(task_name, timer_length, elapsed_seconds):
+    print(Colors.YELLOW + task_name + Colors.NORMAL + '\n')
+    print(f'Timer Length: {Colors.GREEN}{timer_length}:00{Colors.NORMAL}')
+    print(f'Elapsed Time: {elapsed_seconds // 3600}:' +
+          f'{((elapsed_seconds // 60) % 60):02}:' +
+          f'{(elapsed_seconds % 60):02} \n')
+    print(Colors.WHITE + 'Press `Ctrl + C` to stop the timer' +
+          Colors.NORMAL + '\n')
 
 
 def alarm(repetitions: int):
     try:
         for repetition in range(repetitions):
-            for alarm in range(5):
+            for i in range(5):
                 print('\a', end='', flush=True)
-                sleep(.1)
-            sleep(1.5)
+                time.sleep(.1)
+            time.sleep(1.5)
     except KeyboardInterrupt:
         pass

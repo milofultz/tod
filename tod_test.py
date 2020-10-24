@@ -1,99 +1,257 @@
-from tod import *
+import textwrap
 import unittest
 
+from tasks import *
+from utilities import *
 
-class TestTaskListMethods(unittest.TestCase):
+
+class TestTasksFunctions(unittest.TestCase):
 
     def test_add_task(self):
         test1_add_list = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False),
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_add_expected = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False),
-            ('Last', '1:00', False)
+        test1_expected = [
+            {'name': 'REALLY first',
+             'time_spent': '1:00',
+             'completed': False},
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_add_actual = add_task(test1_add_list, 'Last', '1:00', 4)
-        self.assertEqual(test1_add_expected, test1_add_actual)
+        test1_actual = add_task(test1_add_list, 'REALLY first', '1:00', 0)
+        self.assertEqual(test1_expected, test1_actual)
 
         # test adding to empty list
         test2_add_list = []
-        test2_add_expected = [('First', '0:25', False)]
-        test2_add_actual = add_task(test2_add_list, 'First', '0:25', 0)
-        self.assertEqual(test2_add_expected, test2_add_actual)
+        test2_expected = [
+            {'name': 'First',
+             'time_spent': '0:25',
+             'completed': False}
+        ]
+        test2_actual = add_task(test2_add_list, 'First', '0:25')
+        self.assertEqual(test2_expected, test2_actual)
 
     def test_update_task(self):
         test1_update_list = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False)
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_update_expected = [
-            ('Number 1', '1:00', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False)
+        test1_expected = [
+            {'name': 'Number 1',
+             'time_spent': '1:00',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_update_actual = update_task(test1_update_list, 'Number 1', '1:00', 0)
-        self.assertEqual(test1_update_actual, test1_update_expected)
+        test1_actual = update_task(test1_update_list, 'Number 1', '1:00', 0)
+        self.assertEqual(test1_expected, test1_actual)
 
     def test_set_completion(self):
         test1_set_completion_list = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False)
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_set_completion_expected = [
-            ('First task', '0:25', True),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False)
+        test1_expected = [
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_set_completion_actual = set_completion(
+        test1_actual = set_completion(
             test1_set_completion_list, 0)
-        self.assertEqual(
-            test1_set_completion_actual, test1_set_completion_expected)
+        self.assertEqual(test1_expected, test1_actual)
 
     def test_delete_task(self):
         test1_delete_list = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False)
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_delete_expected = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True)
+        test1_expected = [
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True}
         ]
-        test1_delete_actual = delete_task(test1_delete_list, 2)
-        self.assertEqual(test1_delete_actual, test1_delete_expected)
+        test1_actual = delete_task(test1_delete_list, 2)
+        self.assertEqual(test1_expected, test1_actual)
 
     def test_move_task(self):
         test1_move_list = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False)
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_move_expected = [
-            ('Third task', '0:25', False),
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True)
+        test1_expected = [
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True}
         ]
-        test1_move_actual = move_task(test1_move_list, 2, 0)
-        self.assertEqual(test1_move_actual, test1_move_expected)
+        test1_actual = move_task(test1_move_list, 2, 0)
+        self.assertEqual(test1_expected, test1_actual)
 
     def test_reduce_tasks(self):
         test1_reduce_list = [
-            ('First task', '0:25', False),
-            ('Second task', '0:25', True),
-            ('Third task', '0:25', False)
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_reduce_expected = [
-            ('First task', '0:25', False),
-            ('Third task', '0:25', False)
+        test1_expected = [
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
         ]
-        test1_reduce_actual = reduce_tasks(test1_reduce_list)
-        self.assertEqual(test1_reduce_actual, test1_reduce_expected)
+        test1_actual = reduce_tasks(test1_reduce_list)
+        self.assertEqual(test1_expected, test1_actual)
+
+
+class TestUtilitiesFunctions(unittest.TestCase):
+
+    def test_get_tasks(self):
+        test1_tod_file = '[ ] Example 1 (0:00)\n[X] Example 2 (1:01)'
+        test1_expected = [
+            {'name': 'Example 1',
+             'time_spent': '0:00',
+             'completed': False},
+            {'name': 'Example 2',
+             'time_spent': '1:01',
+             'completed': True}
+        ]
+        test1_actual = get_tasks(test1_tod_file)
+        self.assertEqual(test1_actual, test1_expected)
+
+        test2_tod_file = ' '
+        test2_expected = []
+        test2_actual = get_tasks(test2_tod_file)
+        self.assertEqual(test2_expected, test2_actual)
+
+    def test_get_last_mit(self):
+        test1_track_file = textwrap.dedent("""
+            ---
+            20201022 (5) Title 1
+            
+            * Acc 1
+            * Acc 2
+            
+            > First MIT
+            
+            Journal stuff.
+            
+            Lorem ipsum dolor sit amet.
+            
+            
+            ---
+            20201023 (5) Title 2
+            
+            * Acc 3
+            * Acc 4
+            
+            > Last MIT
+            
+            Journal stuff 2.
+            
+            Lorem ipsum 2 dolor sit amet.
+            """)
+        test1_expected = "Last MIT"
+        test1_actual = get_last_mit(test1_track_file)
+        self.assertEqual(test1_actual, test1_expected)
+
+    def test_format_seconds_to_time_spent(self):
+        test1_time_input = 3660
+        test1_expected = '1:01'
+        test1_actual = format_seconds_to_time_spent(test1_time_input)
+        self.assertEqual(test1_expected, test1_actual)
+
+    def test_format_tasks_to_plaintext(self):
+        test1_tasks = [
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'completed': False}
+        ]
+        test1_expected = ("[ ] First task (0:25)\n" +
+                          "[X] Second task (0:25)\n" +
+                          "[ ] Third task (0:25)")
+        test1_actual = format_tasks_to_plaintext(test1_tasks)
+        self.assertEqual(test1_expected, test1_actual)
+
+    def test_convert_time_spent_to_seconds(self):
+        test1_time_spent = '1:01'
+        test1_expected = 3660
+        test1_actual = convert_time_spent_to_seconds(test1_time_spent)
+        self.assertEqual(test1_expected, test1_actual)
 
 
 if __name__ == '__main__':
