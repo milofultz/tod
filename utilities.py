@@ -149,18 +149,22 @@ def timer(task: tuple, timer_length: str):
             break
 
     if elapsed_s >= timer_length_s:
-        while True:
-            try:
-                for i in range(5):
-                    print('\a', end='', flush=True)
-                    sleep(.1)
-                sleep(1.5)
-            except KeyboardInterrupt:
-                break
-
+        alarm(5)
+        
     prev_hours, prev_minutes = prev_time_spent.split(':')
     prev_s = ((int(prev_hours) * 60) + int(prev_minutes)) * 60
 
     seconds = elapsed_s + prev_s
     hours, minutes = divmod(seconds // 60, 60)
     return task_name, f"{hours:01}:{minutes:02}", False
+
+
+def alarm(repetitions: int):
+    try:
+        for repetition in range(repetitions):
+            for alarm in range(5):
+                print('\a', end='', flush=True)
+                sleep(.1)
+            sleep(1.5)
+    except KeyboardInterrupt:
+        pass
