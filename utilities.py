@@ -138,8 +138,11 @@ def print_all_tasks(tasks: list):
         print('No tasks.')
     for index, task in enumerate(tasks):
         text_color = Colors.GREEN if task['completed'] else Colors.NORMAL
+        time_spent = (f" ({task['time_spent']})"
+                      if task['time_spent'] != "0:00"
+                      else '')
         print(f"{index}. {text_color}" +
-              f"{task['name']} ({task['time_spent']}){Colors.NORMAL}")
+              f"{task['name']}{time_spent}{Colors.NORMAL}")
     print()
 
 
