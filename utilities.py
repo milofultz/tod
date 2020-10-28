@@ -29,6 +29,9 @@ def show_help():
           '  q       (Q)uit\n' +
           '  r       (R)educe/remove the completed tasks from the list\n' +
           '  s       (S)tart a new set of daily tasks\n')
+    print()
+    input('Press enter to continue...')
+    clear_screen()
 
 
 # Getters/Setters
