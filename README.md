@@ -22,6 +22,15 @@ On the left is the **task number**, followed by the **task name**, and lastly th
 
 ---
 
+The filepaths for both the Tod tasks file (and the [Track](https://github.com/milofultz/track) file if you use 
+[Track](https://github.com/milofultz/track)) should both be in a `.env` file in the root directory of the program. 
+The `.env` should use these exact variable names with `{filepath}` being replaced by your desired filepath:
+
+    TOD_FP={filepath}
+    TRACK_FP={filepath}
+    
+---
+
 To reduce the friction of using this every day, I made an alias in my terminal so I can just write `tod` to bring up the program:
 
 `alias tod="python '/Users/your-username/tod_directory/tod.py'"`
@@ -29,7 +38,7 @@ To reduce the friction of using this every day, I made an alias in my terminal s
 Take the above code and copy it into your `~/.bash_profile` file. After completing this, run `source ~/.bash_profile` for the new changes to be active.
 
 
-### CLI Commands:
+### Commands:
 
 * `[n]` - Start focus time and timer for task `n`
 * `a[n]` - (A)dd task at index `n`
@@ -46,9 +55,4 @@ Take the above code and copy it into your `~/.bash_profile` file. After completi
 
 ### Future Improvements
 
-* ~~Add timer to keep focus and log progress on a task~~
-* ~~Integrate with Track~~
-	* ~~Add integration features to README~~
-	* ~~Pull MIT from previous day and add it on `s`tart~~
-	* ~~Have Track pull completed tasks from list for accomplishment tracking~~
-* ~~Instead of 'timeboxing', have the time be logged time and then explicitly give the timer how long you want to work in minutes or hours:minutes.~~
+* ~~Add environment variables~~
