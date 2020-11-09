@@ -1,7 +1,7 @@
+import os
 import re
 import sys
 
-from config import Filepaths
 from tasks import (add_task, set_completion, delete_task,
                    update_task, move_task, reduce_tasks)
 from utilities import (Colors, clear_screen, show_help,
@@ -29,7 +29,11 @@ def main_menu(tasks: list):
             show_help()
         elif re.match('\d+$', command):
             number = int(command)
-            task = tasks[number]
+            try:
+                task = tasks[number]
+            except IndexError:
+                print(Colors.RED + "No such task.\n" + Colors.NORMAL)
+                continue                
             time_spent_in_seconds = spend_time_on_task(task['name'])
             prev_time_spent_in_seconds = convert_time_spent_to_seconds(task['time_spent'])
             total_time_spent = prev_time_spent_in_seconds + time_spent_in_seconds
@@ -93,7 +97,7 @@ def main_menu(tasks: list):
         elif 's' in command[0]:
             print('Starting new task list...\n')
             try:
-                track_data = load_data(Filepaths.TRACK)
+                track_data = load_data(os.getenv('TRACK_FP'))
                 mit_from_track = get_last_mit(track_data)
                 tasks = start_new_task_list(mit_from_track)
             except FileNotFoundError:
@@ -104,4 +108,4 @@ def main_menu(tasks: list):
                   Colors.NORMAL)
 
         data = format_tasks_to_plaintext(tasks)
-        save_data(data, Filepaths.TOD)
+        save_data(data, os.getenv('TOD_FP'))

@@ -1,3 +1,4 @@
+import os
 import re
 import time
 
@@ -47,6 +48,14 @@ def save_data(data, filepath):
     """Save data to file"""
     with open(filepath, 'w') as f:
         f.write(data)
+
+
+def set_env_variables():
+    env_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '.env')
+    env_data = load_data(env_path)
+    for line in env_data.split('\n'):
+        k, v = line.split('=', 1)
+        os.environ[k] = v
 
 
 def get_tasks(tod_file_data):

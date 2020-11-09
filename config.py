@@ -1,10 +1,4 @@
-from pathlib import Path
 from shutil import get_terminal_size
-
-
-class Filepaths:
-    TOD = str(Path.home()) + '/.tod'
-    TRACK = str(Path.home()) + '/.track'
 
 
 class Colors:
