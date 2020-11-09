@@ -54,6 +54,8 @@ def set_env_variables():
     env_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '.env')
     env_data = load_data(env_path)
     for line in env_data.split('\n'):
+        if not line: 
+            continue
         k, v = line.split('=', 1)
         os.environ[k] = v
 
