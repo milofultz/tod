@@ -8,7 +8,7 @@ from utilities import (Colors, clear_screen, show_help,
                        load_data, save_data, format_tasks_to_plaintext,
                        task_number_input, task_name_input, task_time_input,
                        spend_time_on_task, convert_time_spent_to_seconds,
-                       format_seconds_to_time_spent, get_last_mit,
+                       format_seconds_to_time_spent,
                        start_new_task_list, print_all_tasks)
 
 
@@ -96,12 +96,7 @@ def main_menu(tasks: list):
             print(Colors.PURPLE + 'Tasks reduced.' + Colors.NORMAL)
         elif 's' in command[0]:
             print('Starting new task list...\n')
-            try:
-                track_data = load_data(os.getenv('TRACK_FP'))
-                mit_from_track = get_last_mit(track_data)
-                tasks = start_new_task_list(mit_from_track)
-            except FileNotFoundError:
-                tasks = start_new_task_list()
+            tasks = start_new_task_list()
             clear_screen()
         else:
             print(Colors.WHITE + "Try 'help' for more information." +

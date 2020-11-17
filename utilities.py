@@ -80,13 +80,6 @@ def get_tasks(tod_file_data):
     return tasks
 
 
-def get_last_mit(track_file_data):
-    """Return recent MIT from track data"""
-    last_data = track_file_data.rsplit('\n> ', 1)
-    mit, _ = last_data[1].split('\n', 1)
-    return mit
-
-
 # Input Validation
 
 def task_number_input(length: int):
@@ -125,15 +118,9 @@ def task_time_input(default_time: str = None):
 
 # Helper Function
 
-def start_new_task_list(mit_from_track: str = None):
+def start_new_task_list():
     """Start new task list and return with new tasks"""
     tasks = []
-
-    if mit_from_track is not None and ' (Completed)' not in mit_from_track:
-        print(Colors.BLUE + 'MIT from Track:' + Colors.NORMAL)
-        print(f'Task Name: {mit_from_track}')
-        tasks = add_task(tasks, mit_from_track, '0:00')
-        print()
 
     while True:
         task_name = task_name_input()
