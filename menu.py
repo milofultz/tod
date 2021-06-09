@@ -12,14 +12,14 @@ from utilities import (Colors, clear_screen, show_help,
                        start_new_task_list, print_all_tasks)
 
 
-def main_menu(active_tasks: list):
+def main_menu(active_tasks: list[dict]):
     while True:
         print_all_tasks(active_tasks)
         command = input('► ').lower()
 
         clear_screen()
         number = (int(command[1:])
-                  if re.match('[A-Za-z]\d+', command)
+                  if re.match(r'[A-Za-z]\d+', command)
                   else None)
         if number is not None and number >= len(active_tasks):
             print(Colors.RED + "No such task.\n" + Colors.NORMAL)
@@ -27,7 +27,7 @@ def main_menu(active_tasks: list):
 
         if command == '':
             show_help()
-        elif re.match('\d+$', command):
+        elif re.match(r'\d+$', command):
             number = int(command)
             try:
                 task = active_tasks[number]
