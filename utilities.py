@@ -161,7 +161,7 @@ def print_all_tasks(active_tasks: list[dict], verbose: bool = False):
         if not verbose:
             notes = notes[0:40] + '...' if len(notes) > 40 else notes
         else:
-            indent = math.log10(index) if index != 0 else 0
+            indent = int(math.log10(index)) if index != 0 else 0
             notes = f"\n   {indent * ' '}{notes}"
         print(f"{index}. {color}{task['name']}{time_spent}{Colors.NORMAL}" +
               f" {Colors.GRAY}{notes}{Colors.NORMAL}")
