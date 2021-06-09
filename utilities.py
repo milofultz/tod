@@ -8,7 +8,7 @@ import tasks
 
 # Utilities
 
-def clear_screen():
+def cls():
     """Clear screen"""
     print('\n' * TERMINAL_HEIGHT)
 
@@ -32,7 +32,7 @@ def show_help():
           '  s       (S)tart a new set of daily tasks\n')
     print()
     input('Press enter to continue...')
-    clear_screen()
+    cls()
 
 
 # Getters/Setters
@@ -190,7 +190,7 @@ def timer(task_name, timer_length: str):
     elapsed_seconds = 0
     while elapsed_seconds <= timer_length_seconds:
         try:
-            clear_screen()
+            cls()
             print_timer_details(task_name, timer_length, elapsed_seconds)
             time.sleep(1)
             elapsed_seconds += 1
@@ -199,7 +199,7 @@ def timer(task_name, timer_length: str):
 
     if elapsed_seconds >= timer_length_seconds:
         alarm(5)
-    clear_screen()
+    cls()
 
 
 def convert_time_spent_to_seconds(length: str):

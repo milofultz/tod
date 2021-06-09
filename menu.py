@@ -4,8 +4,7 @@ import sys
 
 import tasks
 from utilities import Colors as C
-from utilities import (clear_screen, show_help,
-                       load_data, save_data, format_tasks_to_plaintext,
+from utilities import (cls, show_help, save_data, format_tasks_to_plaintext,
                        task_number_input, task_name_input, task_time_input,
                        spend_time_on_task, convert_time_spent_to_seconds,
                        format_seconds_to_time_spent,
@@ -17,7 +16,7 @@ def main_menu(active_tasks: list[dict]):
         print_all_tasks(active_tasks)
         command = input('► ').lower()
 
-        clear_screen()
+        cls()
         number = (int(command[1:])
                   if re.match(r'[A-Za-z]\d+', command)
                   else None)
@@ -42,34 +41,34 @@ def main_menu(active_tasks: list[dict]):
                         task['name'],
                         formatted_time_spent,
                         number)
-            clear_screen()
+            cls()
             print(C.PURPLE + 'Elapsed time added.' + C.NORMAL)
         elif 'a' in command[0]:
             task_name = task_name_input()
             active_tasks = tasks.add(active_tasks, task_name, '0:00', number)
-            clear_screen()
+            cls()
             print(C.PURPLE + 'Task added.' + C.NORMAL)
         elif 'c' in command[0]:
             if number is None:
                 number = task_number_input(len(active_tasks))
             active_tasks = tasks.set_completion(active_tasks, number)
-            clear_screen()
+            cls()
             print(C.PURPLE + 'Task updated.' + C.NORMAL)
         elif len(command) == 2 and command == 'dd':
             active_tasks = []
-            clear_screen()
+            cls()
             print(C.PURPLE + 'Tasks deleted.' + C.NORMAL)
         elif 'd' in command[0]:
             if number is None:
                 number = task_number_input(len(active_tasks))
             active_tasks = tasks.delete(active_tasks, number)
-            clear_screen()
+            cls()
             print(C.PURPLE + 'Task deleted.' + C.NORMAL)
         elif 'e' in command[0]:
             if number is None:
                 print_all_tasks(active_tasks)
                 number = task_number_input(len(active_tasks))
-                clear_screen()
+                cls()
             task = active_tasks[number]
             print('\n' + C.BLUE + "Original Task:" + C.NORMAL)
             print(f"\n{task['name']} ({task['time_spent']})\n")
@@ -79,7 +78,7 @@ def main_menu(active_tasks: list[dict]):
                                        updated_task_name,
                                        updated_time_spent,
                                        number)
-            clear_screen()
+            cls()
             print(C.PURPLE + 'Task updated.' + C.NORMAL)
         elif 'h' in command[0]:
             show_help()
@@ -89,7 +88,7 @@ def main_menu(active_tasks: list[dict]):
                 number = task_number_input(len(active_tasks))
             to_number = int(input(f'Move task {number} to where? '))
             active_tasks = tasks.move(active_tasks, number, to_number)
-            clear_screen()
+            cls()
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
         elif 'q' in command[0]:
             sys.exit()
@@ -99,7 +98,7 @@ def main_menu(active_tasks: list[dict]):
         elif 's' in command[0]:
             print('Starting new task list...\n')
             active_tasks = start_new_task_list()
-            clear_screen()
+            cls()
         else:
             print(C.WHITE + "Try 'help' for more information." +
                   C.NORMAL)
