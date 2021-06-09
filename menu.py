@@ -4,11 +4,9 @@ import sys
 
 import tasks
 from utilities import Colors as C
-from utilities import (cls, show_help, save_data, format_tasks_to_plaintext,
-                       task_number_input, task_name_input, task_time_input,
-                       spend_time_on_task, convert_time_spent_to_seconds,
-                       format_seconds_to_time_spent,
-                       start_new_task_list, print_all_tasks)
+from utilities import cls, convert_time_spent_to_seconds, format_seconds_to_time_spent, format_tasks_to_plaintext, \
+    print_all_tasks, save_data, show_help, spend_time_on_task, start_new_task_list, task_name_input, \
+    task_number_input, task_time_input
 
 
 def main_menu(active_tasks: list[dict]):
@@ -38,9 +36,9 @@ def main_menu(active_tasks: list[dict]):
             total_time_spent = prev_time_spent_in_seconds + time_spent_in_seconds
             formatted_time_spent = format_seconds_to_time_spent(total_time_spent)
             tasks.update(active_tasks,
-                        task['name'],
-                        formatted_time_spent,
-                        number)
+                         task['name'],
+                         formatted_time_spent,
+                         number)
             cls()
             print(C.PURPLE + 'Elapsed time added.' + C.NORMAL)
         elif 'a' in command[0]:
@@ -75,9 +73,9 @@ def main_menu(active_tasks: list[dict]):
             updated_task_name = task_name_input(task['name'])
             updated_time_spent = task_time_input(task['time_spent'])
             active_tasks = tasks.update(active_tasks,
-                                       updated_task_name,
-                                       updated_time_spent,
-                                       number)
+                                        updated_task_name,
+                                        updated_time_spent,
+                                        number)
             cls()
             print(C.PURPLE + 'Task updated.' + C.NORMAL)
         elif 'h' in command[0]:
