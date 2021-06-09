@@ -52,10 +52,11 @@ def save_data(data, filepath):
 
 
 def set_env_variables():
+    """Set filepath to user's .tod file"""
     env_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '.env')
     env_data = load_data(env_path)
     for line in env_data.split('\n'):
-        if not line: 
+        if not line:
             continue
         k, v = line.split('=', 1)
         os.environ[k] = v
@@ -96,12 +97,16 @@ def task_number_input(length: int):
     return int(number)
 
 
-def task_name_input(prev_name=None):
+def task_name_input(prev_name=None) -> (str, str):
     """Validate task name input"""
     task_name = input('Task Name and Notes: ').strip()
     if task_name == '' and prev_name:
-        return prev_name
-    return task_name
+        task_name = prev_name
+    if ':' in task_name:
+        task_name, task_notes = task_name.split(':')
+    else:
+        task_notes = ''
+    return task_name.strip(), task_notes.strip()
 
 
 def task_time_input(default_time: str = None):
@@ -128,11 +133,16 @@ def start_new_task_list():
     active_tasks = []
 
     while True:
-        task_name = task_name_input()
+        task_name, task_notes = task_name_input()
         if not task_name:
             break
-        time_spent = '0:00'
-        active_tasks = tasks.add(active_tasks, task_name, time_spent)
+        new_task = {
+            'name': task_name,
+            'time_spent': '0:00',
+            'notes': task_notes,
+            'completed': False
+        }
+        active_tasks = tasks.add(active_tasks, new_task)
 
     return active_tasks
 

@@ -43,14 +43,7 @@ def main_menu(active_tasks: list[dict]):
             cls()
             print(C.PURPLE + 'Elapsed time added.' + C.NORMAL)
         elif 'a' in command[0]:
-            task_name = task_name_input()
-            # If colon used in task creation, use what follows colon for notes
-            if ':' in task_name:
-                task_name, task_notes = task_name.rsplit(':')
-                task_name = task_name.strip()
-                task_notes = task_notes.strip()
-            else:
-                task_notes = ''
+            task_name, task_notes = task_name_input()
             new_task = {
                 'name': task_name,
                 'time_spent': '0:00',
@@ -84,13 +77,7 @@ def main_menu(active_tasks: list[dict]):
             task = active_tasks[number]
             print('\n' + C.BLUE + "Original Task:" + C.NORMAL)
             print(f"\n{task['name']} ({task['time_spent']})\n{task.get('notes')}\n")
-            updated_task_name = task_name_input(task['name'])
-            if ':' in updated_task_name:
-                updated_task_name, updated_task_notes = updated_task_name.rsplit(':')
-                updated_task_name = updated_task_name.strip()
-                updated_task_notes = updated_task_notes.strip()
-            else:
-                updated_task_notes = ''
+            updated_task_name, updated_task_notes = task_name_input(task['name'])
             updated_time_spent = task_time_input(task['time_spent'])
             updated_task = {**task,
                             'name': updated_task_name,
