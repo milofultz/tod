@@ -107,9 +107,9 @@ def task_time_input(default_time: str = None):
     """Validate task time input"""
     while True:
         time_spent = input('Task Time: ')
-        if re.match('\d:[0-6]\d', time_spent):
+        if re.match(r'\d:[0-6]\d', time_spent):
             break
-        elif re.match('[0-6]?\d', time_spent):
+        elif re.match(r'[0-6]?\d', time_spent):
             time_spent = f"0:{time_spent.zfill(2)}"
             break
         elif time_spent == '' and default_time:
