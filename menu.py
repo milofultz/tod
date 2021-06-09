@@ -3,7 +3,7 @@ import re
 import sys
 
 import tasks
-from tasks import (move_task, reduce_tasks)
+from tasks import (reduce_tasks)
 from utilities import (Colors, clear_screen, show_help,
                        load_data, save_data, format_tasks_to_plaintext,
                        task_number_input, task_name_input, task_time_input,
@@ -88,7 +88,7 @@ def main_menu(active_tasks: list[dict]):
             if number is None:
                 number = task_number_input(len(active_tasks))
             to_number = int(input(f'Move task {number} to where? '))
-            active_tasks = move_task(active_tasks, number, to_number)
+            active_tasks = tasks.move(active_tasks, number, to_number)
             clear_screen()
             print(Colors.PURPLE + 'Tasks updated.' + Colors.NORMAL)
         elif 'q' in command[0]:

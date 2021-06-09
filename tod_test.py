@@ -121,7 +121,7 @@ class TestTasksFunctions(unittest.TestCase):
         test1_actual = tasks.delete(test1_delete_list, 2)
         self.assertEqual(test1_expected, test1_actual)
 
-    def test_move_task(self):
+    def test_tasks_move(self):
         test1_move_list = [
             {'name': 'First task',
              'time_spent': '0:25',
@@ -144,7 +144,7 @@ class TestTasksFunctions(unittest.TestCase):
              'time_spent': '0:25',
              'completed': True}
         ]
-        test1_actual = move_task(test1_move_list, 2, 0)
+        test1_actual = tasks.move(test1_move_list, 2, 0)
         self.assertEqual(test1_expected, test1_actual)
 
     def test_reduce_tasks(self):

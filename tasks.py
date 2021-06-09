@@ -28,7 +28,7 @@ def update(task_list, task_name, time_spent: str, index):
     return task_list
 
 
-def move_task(task_list, from_index, to_index):
+def move(task_list, from_index, to_index):
     """Return tasks with tasks rearranged by index"""
     task_list.insert(to_index, task_list.pop(from_index))
     return task_list
