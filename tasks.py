@@ -21,7 +21,7 @@ def delete(task_list, index):
     return task_list
 
 
-def update_task(task_list, task_name, time_spent: str, index):
+def update(task_list, task_name, time_spent: str, index):
     """Return tasks with task at index updated"""
     task_list[index]['name'] = task_name
     task_list[index]['time_spent'] = time_spent

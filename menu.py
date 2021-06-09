@@ -3,7 +3,7 @@ import re
 import sys
 
 import tasks
-from tasks import (update_task, move_task, reduce_tasks)
+from tasks import (move_task, reduce_tasks)
 from utilities import (Colors, clear_screen, show_help,
                        load_data, save_data, format_tasks_to_plaintext,
                        task_number_input, task_name_input, task_time_input,
@@ -38,7 +38,7 @@ def main_menu(active_tasks: list[dict]):
             prev_time_spent_in_seconds = convert_time_spent_to_seconds(task['time_spent'])
             total_time_spent = prev_time_spent_in_seconds + time_spent_in_seconds
             formatted_time_spent = format_seconds_to_time_spent(total_time_spent)
-            update_task(active_tasks,
+            tasks.update(active_tasks,
                         task['name'],
                         formatted_time_spent,
                         number)
@@ -75,7 +75,7 @@ def main_menu(active_tasks: list[dict]):
             print(f"\n{task['name']} ({task['time_spent']})\n")
             updated_task_name = task_name_input(task['name'])
             updated_time_spent = task_time_input(task['time_spent'])
-            active_tasks = update_task(active_tasks,
+            active_tasks = tasks.update(active_tasks,
                                        updated_task_name,
                                        updated_time_spent,
                                        number)

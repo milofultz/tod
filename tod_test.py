@@ -46,7 +46,7 @@ class TestTasksFunctions(unittest.TestCase):
         test2_actual = tasks.add(test2_add_list, 'First', '0:25')
         self.assertEqual(test2_expected, test2_actual)
 
-    def test_update_task(self):
+    def test_tasks_update(self):
         test1_update_list = [
             {'name': 'First task',
              'time_spent': '0:25',
@@ -69,7 +69,7 @@ class TestTasksFunctions(unittest.TestCase):
              'time_spent': '0:25',
              'completed': False}
         ]
-        test1_actual = update_task(test1_update_list, 'Number 1', '1:00', 0)
+        test1_actual = tasks.update(test1_update_list, 'Number 1', '1:00', 0)
         self.assertEqual(test1_expected, test1_actual)
 
     def test_set_completion(self):
