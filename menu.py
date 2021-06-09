@@ -43,7 +43,20 @@ def main_menu(active_tasks: list[dict]):
             print(C.PURPLE + 'Elapsed time added.' + C.NORMAL)
         elif 'a' in command[0]:
             task_name = task_name_input()
-            active_tasks = tasks.add(active_tasks, task_name, '0:00', number)
+            # If colon used in task creation, use what follows colon for notes
+            if ':' in task_name:
+                task_name, task_notes = task_name.rsplit(':')
+                task_name = task_name.strip()
+                task_notes = task_notes.strip()
+            else:
+                task_notes = ''
+            new_task = {
+                'name': task_name,
+                'time_spent': '0:00',
+                'notes': task_notes,
+                'completed': False
+            }
+            active_tasks = tasks.add(active_tasks, new_task, number)
             cls()
             print(C.PURPLE + 'Task added.' + C.NORMAL)
         elif 'c' in command[0]:
@@ -88,8 +101,6 @@ def main_menu(active_tasks: list[dict]):
             active_tasks = tasks.move(active_tasks, number, to_number)
             cls()
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
-        elif 'n' in command[0]:
-            pass
         elif 'q' in command[0]:
             sys.exit()
         elif 'r' in command[0]:
@@ -100,8 +111,7 @@ def main_menu(active_tasks: list[dict]):
             active_tasks = start_new_task_list()
             cls()
         else:
-            print(C.WHITE + "Try 'help' for more information." +
-                  C.NORMAL)
+            print(C.WHITE + "Try 'help' for more information." + C.NORMAL)
 
         data = format_tasks_to_plaintext(active_tasks)
         save_data(data, os.getenv('TOD_FP'))

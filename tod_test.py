@@ -11,29 +11,42 @@ class TestTasksFunctions(unittest.TestCase):
         test1_add_list = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_expected = [
             {'name': 'REALLY first',
              'time_spent': '1:00',
+             'notes': '',
              'completed': False},
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
-        test1_actual = tasks.add(test1_add_list, 'REALLY first', '1:00', 0)
+        test1_new_task = {
+            'name': 'REALLY first',
+            'time_spent': '1:00',
+            'notes': '',
+            'completed': False
+        }
+        test1_actual = tasks.add(test1_add_list, test1_new_task, 0)
         self.assertEqual(test1_expected, test1_actual)
 
         # test adding to empty list
@@ -41,32 +54,45 @@ class TestTasksFunctions(unittest.TestCase):
         test2_expected = [
             {'name': 'First',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
-        test2_actual = tasks.add(test2_add_list, 'First', '0:25')
+        test2_new_task = {
+            'name': 'First',
+            'time_spent': '0:25',
+            'notes': '',
+            'completed': False
+        }
+        test2_actual = tasks.add(test2_add_list, test2_new_task)
         self.assertEqual(test2_expected, test2_actual)
 
     def test_tasks_update(self):
         test1_update_list = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_expected = [
             {'name': 'Number 1',
              'time_spent': '1:00',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_actual = tasks.update(test1_update_list, 'Number 1', '1:00', 0)
@@ -76,23 +102,29 @@ class TestTasksFunctions(unittest.TestCase):
         test1_set_completion_list = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_expected = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_actual = tasks.set_completion(test1_set_completion_list, 0)
@@ -102,20 +134,25 @@ class TestTasksFunctions(unittest.TestCase):
         test1_delete_list = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_expected = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True}
         ]
         test1_actual = tasks.delete(test1_delete_list, 2)
@@ -125,23 +162,29 @@ class TestTasksFunctions(unittest.TestCase):
         test1_move_list = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_expected = [
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True}
         ]
         test1_actual = tasks.move(test1_move_list, 2, 0)
@@ -151,20 +194,25 @@ class TestTasksFunctions(unittest.TestCase):
         test1_reduce_list = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_expected = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_actual = tasks.reduce(test1_reduce_list)
@@ -218,12 +266,15 @@ class TestUtilitiesFunctions(unittest.TestCase):
         test1_tasks = [
             {'name': 'First task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False},
             {'name': 'Second task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': True},
             {'name': 'Third task',
              'time_spent': '0:25',
+             'notes': '',
              'completed': False}
         ]
         test1_expected = ("[ ] First task (0:25)\n" +
