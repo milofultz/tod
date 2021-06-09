@@ -142,12 +142,14 @@ def print_all_tasks(active_tasks: list[dict]):
     if len(active_tasks) == 0:
         print('No tasks.')
     for index, task in enumerate(active_tasks):
-        text_color = Colors.GREEN if task['completed'] else Colors.NORMAL
+        color = Colors.GREEN if task['completed'] else Colors.NORMAL
         time_spent = (f" ({task['time_spent']})"
                       if task['time_spent'] != "0:00"
                       else '')
-        print(f"{index}. {text_color}" +
-              f"{task['name']}{time_spent}{Colors.NORMAL}")
+        notes = task.get('notes', '')
+        notes = notes[0:40] + '...' if len(notes) > 40 else notes
+        print(f"{index}. {color}{task['name']}{time_spent}{Colors.NORMAL}" +
+              f" {Colors.GRAY}{notes}{Colors.NORMAL}")
     print()
 
 

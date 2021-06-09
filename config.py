@@ -3,6 +3,7 @@ from shutil import get_terminal_size
 
 class Colors:
     WHITE = "\033[97m"
+    GRAY = "\033[37m"
     RED = "\033[91m"
     YELLOW = "\033[93m"
     GREEN = "\033[92m"
