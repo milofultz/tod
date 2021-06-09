@@ -97,7 +97,7 @@ def task_number_input(length: int):
 
 def task_name_input(prev_name=None):
     """Validate task name input"""
-    task_name = input('Task Name: ').strip()
+    task_name = input('Task Name and Notes: ').strip()
     if task_name == '' and prev_name:
         return prev_name
     return task_name

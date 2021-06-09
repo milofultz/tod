@@ -18,10 +18,9 @@ def delete(active_tasks, index):
     return active_tasks
 
 
-def update(active_tasks, task_name, time_spent: str, index):
+def update(active_tasks, updated_task: dict, index):
     """Return tasks with task at index updated"""
-    active_tasks[index]['name'] = task_name
-    active_tasks[index]['time_spent'] = time_spent
+    active_tasks[index] = updated_task
     return active_tasks
 
 
