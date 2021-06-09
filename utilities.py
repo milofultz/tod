@@ -107,7 +107,7 @@ def task_name_input(prev_name=None) -> (str, str):
     if task_name == '' and prev_name:
         task_name = prev_name
     if ':' in task_name:
-        task_name, task_notes = task_name.split(':')
+        task_name, task_notes = task_name.split(':', 1)
     else:
         task_notes = ''
     return task_name.strip(), task_notes.strip()
