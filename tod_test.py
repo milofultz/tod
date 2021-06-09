@@ -279,9 +279,30 @@ class TestUtilitiesFunctions(unittest.TestCase):
         ]
         test1_expected = ("[ ] First task (0:25)\n" +
                           "[X] Second task (0:25)\n" +
-                          "[ ] Third task (0:25)")
+                          "[ ] Third task (0:25)\n")
         test1_actual = format_tasks_to_plaintext(test1_tasks)
         self.assertEqual(test1_expected, test1_actual)
+
+        test2_tasks = [
+            {'name': 'First task',
+             'time_spent': '0:25',
+             'notes': 'Lorem ipsum',
+             'completed': False},
+            {'name': 'Second task',
+             'time_spent': '0:25',
+             'notes': '',
+             'completed': True},
+            {'name': 'Third task',
+             'time_spent': '0:25',
+             'notes': '',
+             'completed': False}
+        ]
+        test2_expected = ("[ ] First task (0:25)\n" +
+                          "    Lorem ipsum\n"
+                          "[X] Second task (0:25)\n" +
+                          "[ ] Third task (0:25)\n")
+        test2_actual = format_tasks_to_plaintext(test2_tasks)
+        self.assertEqual(test2_expected, test2_actual)
 
     def test_convert_time_spent_to_seconds(self):
         test1_time_spent = '1:01'

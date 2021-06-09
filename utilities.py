@@ -69,7 +69,7 @@ def parse_tasks(tod_file_data):
         if task_text.strip() == '':
             continue
         elif task_text[0] != '[':
-            active_tasks[-1]["notes"] += task_text
+            active_tasks[-1]["notes"] += task_text.strip()
             continue
         task_name = task_text[4:-7]
         time_spent = task_text[-5:-1]
@@ -167,10 +167,10 @@ def format_tasks_to_plaintext(active_tasks: list[dict]):
 
     for index, task in enumerate(active_tasks):
         completed = '[X]' if task["completed"] else '[ ]'
-        formatted_data += (
-            f"{completed} {task['name']} ({task['time_spent']})")
-        if index != len(active_tasks) - 1:
-            formatted_data += '\n'
+        formatted_data += f"{completed} {task['name']} ({task['time_spent']})"
+        if notes := task.get('notes'):
+            formatted_data += f"\n    {notes}"
+        formatted_data += '\n'
 
     return formatted_data
 
