@@ -60,7 +60,7 @@ def set_env_variables():
         os.environ[k] = v
 
 
-def get_tasks(tod_file_data):
+def parse_tasks(tod_file_data):
     """Return list of task dicts from .tod file"""
     active_tasks = []
     tod_file_data = tod_file_data.split('\n')

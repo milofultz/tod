@@ -173,7 +173,7 @@ class TestTasksFunctions(unittest.TestCase):
 
 class TestUtilitiesFunctions(unittest.TestCase):
 
-    def test_get_tasks(self):
+    def test_parse_tasks(self):
         test1_tod_file = '[ ] Example 1 (0:00)\n[X] Example 2 (1:01)'
         test1_expected = [
             {'name': 'Example 1',
@@ -185,15 +185,15 @@ class TestUtilitiesFunctions(unittest.TestCase):
              'notes': '',
              'completed': True}
         ]
-        test1_actual = get_tasks(test1_tod_file)
+        test1_actual = parse_tasks(test1_tod_file)
         self.assertEqual(test1_actual, test1_expected)
 
         test2_tod_file = ' '
         test2_expected = []
-        test2_actual = get_tasks(test2_tod_file)
+        test2_actual = parse_tasks(test2_tod_file)
         self.assertEqual(test2_expected, test2_actual)
 
-    def test_get_tasks_with_notes(self):
+    def test_parse_tasks_with_notes(self):
         test1_tod_file = '[ ] Example 1 (0:00)\nLorem ipsum dolor sit amet, consectetur adipiscing elit.\n[X] Example 2 (1:01)'
         test1_expected = [
             {'name': 'Example 1',
@@ -205,13 +205,8 @@ class TestUtilitiesFunctions(unittest.TestCase):
              'notes': '',
              'completed': True}
         ]
-        test1_actual = get_tasks(test1_tod_file)
+        test1_actual = parse_tasks(test1_tod_file)
         self.assertEqual(test1_actual, test1_expected)
-
-        test2_tod_file = ' '
-        test2_expected = []
-        test2_actual = get_tasks(test2_tod_file)
-        self.assertEqual(test2_expected, test2_actual)
 
     def test_format_seconds_to_time_spent(self):
         test1_time_input = 3660
