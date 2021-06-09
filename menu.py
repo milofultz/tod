@@ -88,6 +88,8 @@ def main_menu(active_tasks: list[dict]):
             active_tasks = tasks.move(active_tasks, number, to_number)
             cls()
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
+        elif 'n' in command[0]:
+            pass
         elif 'q' in command[0]:
             sys.exit()
         elif 'r' in command[0]:

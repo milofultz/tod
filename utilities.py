@@ -66,7 +66,10 @@ def get_tasks(tod_file_data):
     tod_file_data = tod_file_data.split('\n')
 
     for task_text in tod_file_data:
-        if task_text == '' or task_text[0] != '[':
+        if task_text.strip() == '':
+            continue
+        elif task_text[0] != '[':
+            active_tasks[-1]["notes"] += task_text
             continue
         task_name = task_text[4:-7]
         time_spent = task_text[-5:-1]
@@ -74,6 +77,7 @@ def get_tasks(tod_file_data):
         active_tasks.append({
             "name": task_name,
             "time_spent": time_spent,
+            "notes": "",
             "completed": completed
         })
 

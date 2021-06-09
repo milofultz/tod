@@ -178,9 +178,31 @@ class TestUtilitiesFunctions(unittest.TestCase):
         test1_expected = [
             {'name': 'Example 1',
              'time_spent': '0:00',
+             'notes': '',
              'completed': False},
             {'name': 'Example 2',
              'time_spent': '1:01',
+             'notes': '',
+             'completed': True}
+        ]
+        test1_actual = get_tasks(test1_tod_file)
+        self.assertEqual(test1_actual, test1_expected)
+
+        test2_tod_file = ' '
+        test2_expected = []
+        test2_actual = get_tasks(test2_tod_file)
+        self.assertEqual(test2_expected, test2_actual)
+
+    def test_get_tasks_with_notes(self):
+        test1_tod_file = '[ ] Example 1 (0:00)\nLorem ipsum dolor sit amet, consectetur adipiscing elit.\n[X] Example 2 (1:01)'
+        test1_expected = [
+            {'name': 'Example 1',
+             'time_spent': '0:00',
+             'notes': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+             'completed': False},
+            {'name': 'Example 2',
+             'time_spent': '1:01',
+             'notes': '',
              'completed': True}
         ]
         test1_actual = get_tasks(test1_tod_file)
