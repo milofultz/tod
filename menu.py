@@ -36,10 +36,8 @@ def main_menu(active_tasks: list[dict]):
             prev_time_spent_in_seconds = convert_time_spent_to_seconds(task['time_spent'])
             total_time_spent = prev_time_spent_in_seconds + time_spent_in_seconds
             formatted_time_spent = format_seconds_to_time_spent(total_time_spent)
-            tasks.update(active_tasks,
-                         task['name'],
-                         formatted_time_spent,
-                         number)
+            updated_task = {**task, 'time_spent': formatted_time_spent}
+            tasks.update(active_tasks, updated_task, number)
             cls()
             print(C.PURPLE + 'Elapsed time added.' + C.NORMAL)
         elif 'a' in command[0]:
