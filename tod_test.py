@@ -95,8 +95,7 @@ class TestTasksFunctions(unittest.TestCase):
              'time_spent': '0:25',
              'completed': False}
         ]
-        test1_actual = set_completion(
-            test1_set_completion_list, 0)
+        test1_actual = tasks.set_completion(test1_set_completion_list, 0)
         self.assertEqual(test1_expected, test1_actual)
 
     def test_delete_task(self):

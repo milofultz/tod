@@ -3,7 +3,7 @@ import re
 import sys
 
 import tasks
-from tasks import (set_completion, delete_task,
+from tasks import (delete_task,
                    update_task, move_task, reduce_tasks)
 from utilities import (Colors, clear_screen, show_help,
                        load_data, save_data, format_tasks_to_plaintext,
@@ -53,7 +53,7 @@ def main_menu(active_tasks: list[dict]):
         elif 'c' in command[0]:
             if number is None:
                 number = task_number_input(len(active_tasks))
-            active_tasks = set_completion(active_tasks, number)
+            active_tasks = tasks.set_completion(active_tasks, number)
             clear_screen()
             print(Colors.PURPLE + 'Task updated.' + Colors.NORMAL)
         elif len(command) == 2 and command == 'dd':
