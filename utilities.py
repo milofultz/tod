@@ -1,3 +1,4 @@
+import math
 import os
 import re
 import time
@@ -136,7 +137,7 @@ def start_new_task_list():
     return active_tasks
 
 
-def print_all_tasks(active_tasks: list[dict]):
+def print_all_tasks(active_tasks: list[dict], verbose: bool = False):
     """Print tasks to screen"""
     print('\n' + Colors.BLUE + 'TASKS:' + Colors.NORMAL + '\n')
     if len(active_tasks) == 0:
@@ -147,7 +148,11 @@ def print_all_tasks(active_tasks: list[dict]):
                       if task['time_spent'] != "0:00"
                       else '')
         notes = task.get('notes', '')
-        notes = notes[0:40] + '...' if len(notes) > 40 else notes
+        if not verbose:
+            notes = notes[0:40] + '...' if len(notes) > 40 else notes
+        else:
+            indent = math.log10(index) if index != 0 else 0
+            notes = f"\n   {indent * ' '}{notes}"
         print(f"{index}. {color}{task['name']}{time_spent}{Colors.NORMAL}" +
               f" {Colors.GRAY}{notes}{Colors.NORMAL}")
     print()

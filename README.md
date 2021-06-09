@@ -11,11 +11,11 @@ Tasks on screen are shown like so:
 
 <pre>
 0. Make the bed
-1. Complete development project (1:00)
+1. Complete development project (1:00) Remember to ping Keith on...
 2. Get to inbox zero (0:30)
 </pre>
 
-On the left is the **task number**, followed by the **task name**, and lastly the **time spent** on that task so far, if any. Time spent can be changed manually or can be changed automatically through use of the timer. A green task represents a completed task.
+On the left is the **task number**, followed by the **task name**,  the **time spent** on that task so far, if any, and lastly any **note** you left regarding that task. Time spent can be changed manually or can be changed automatically through use of the timer. A green task represents a completed task.
 
 ---
 
@@ -44,6 +44,7 @@ Key | Description
 `e[n]` | (E)dit task `n`
 `h` | Print the (H)elp menu
 `m[n]` | (M)ove task `n`
+`n` | Toggle full (N)otes when printing tasks
 `q` | (Q)uit
 `r` | (R)educe/remove the completed tasks from the list
 `s` | (S)tart a new set of daily tasks

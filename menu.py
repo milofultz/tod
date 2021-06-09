@@ -10,8 +10,9 @@ from utilities import cls, convert_time_spent_to_seconds, format_seconds_to_time
 
 
 def main_menu(active_tasks: list[dict]):
+    verbose = False
     while True:
-        print_all_tasks(active_tasks)
+        print_all_tasks(active_tasks, verbose)
         command = input('► ').lower()
 
         cls()
@@ -108,6 +109,10 @@ def main_menu(active_tasks: list[dict]):
             active_tasks = tasks.move(active_tasks, number, to_number)
             cls()
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
+        elif 'n' in command[0]:
+            verbose = True if not verbose else False
+            cls()
+            print(C.PURPLE + 'Notes are now fully visible.' + C.NORMAL)
         elif 'q' in command[0]:
             sys.exit()
         elif 'r' in command[0]:
