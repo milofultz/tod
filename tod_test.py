@@ -1,13 +1,14 @@
 import textwrap
 import unittest
 
+import tasks
 from tasks import *
 from utilities import *
 
 
 class TestTasksFunctions(unittest.TestCase):
 
-    def test_add_task(self):
+    def test_tasks_add(self):
         test1_add_list = [
             {'name': 'First task',
              'time_spent': '0:25',
@@ -33,7 +34,7 @@ class TestTasksFunctions(unittest.TestCase):
              'time_spent': '0:25',
              'completed': False}
         ]
-        test1_actual = add_task(test1_add_list, 'REALLY first', '1:00', 0)
+        test1_actual = tasks.add(test1_add_list, 'REALLY first', '1:00', 0)
         self.assertEqual(test1_expected, test1_actual)
 
         # test adding to empty list
@@ -43,7 +44,7 @@ class TestTasksFunctions(unittest.TestCase):
              'time_spent': '0:25',
              'completed': False}
         ]
-        test2_actual = add_task(test2_add_list, 'First', '0:25')
+        test2_actual = tasks.add(test2_add_list, 'First', '0:25')
         self.assertEqual(test2_expected, test2_actual)
 
     def test_update_task(self):

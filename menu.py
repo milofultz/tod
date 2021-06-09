@@ -47,7 +47,7 @@ def main_menu(active_tasks: list[dict]):
             print(Colors.PURPLE + 'Elapsed time added.' + Colors.NORMAL)
         elif 'a' in command[0]:
             task_name = task_name_input()
-            active_tasks = tasks.add_task(active_tasks, task_name, '0:00', number)
+            active_tasks = tasks.add(active_tasks, task_name, '0:00', number)
             clear_screen()
             print(Colors.PURPLE + 'Task added.' + Colors.NORMAL)
         elif 'c' in command[0]:

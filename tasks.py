@@ -1,4 +1,4 @@
-def add_task(task_list, task_name, time_spent: str, index: int = None):
+def add(task_list, task_name, time_spent: str, index: int = None):
     """Return tasks with task inserted at index"""
     if index is None:
         index = len(task_list)

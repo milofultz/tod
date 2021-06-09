@@ -127,7 +127,7 @@ def start_new_task_list():
         if not task_name:
             break
         time_spent = '0:00'
-        active_tasks = tasks.add_task(active_tasks, task_name, time_spent)
+        active_tasks = tasks.add(active_tasks, task_name, time_spent)
 
     return active_tasks
 
