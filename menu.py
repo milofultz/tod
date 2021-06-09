@@ -2,7 +2,8 @@ import os
 import re
 import sys
 
-from tasks import (add_task, set_completion, delete_task,
+import tasks
+from tasks import (set_completion, delete_task,
                    update_task, move_task, reduce_tasks)
 from utilities import (Colors, clear_screen, show_help,
                        load_data, save_data, format_tasks_to_plaintext,
@@ -46,7 +47,7 @@ def main_menu(active_tasks: list[dict]):
             print(Colors.PURPLE + 'Elapsed time added.' + Colors.NORMAL)
         elif 'a' in command[0]:
             task_name = task_name_input()
-            active_tasks = add_task(active_tasks, task_name, '0:00', number)
+            active_tasks = tasks.add_task(active_tasks, task_name, '0:00', number)
             clear_screen()
             print(Colors.PURPLE + 'Task added.' + Colors.NORMAL)
         elif 'c' in command[0]:

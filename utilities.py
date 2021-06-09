@@ -3,7 +3,7 @@ import re
 import time
 
 from config import (Colors, TERMINAL_HEIGHT, DEFAULT_TIMER_LENGTH)
-from tasks import add_task
+import tasks
 
 
 # Utilities
@@ -62,7 +62,7 @@ def set_env_variables():
 
 def get_tasks(tod_file_data):
     """Return list of task dicts from .tod file"""
-    tasks = []
+    active_tasks = []
     tod_file_data = tod_file_data.split('\n')
 
     for task_text in tod_file_data:
@@ -71,13 +71,13 @@ def get_tasks(tod_file_data):
         task_name = task_text[4:-7]
         time_spent = task_text[-5:-1]
         completed = True if task_text[1] == 'X' else False
-        tasks.append({
+        active_tasks.append({
             "name": task_name,
             "time_spent": time_spent,
             "completed": completed
         })
 
-    return tasks
+    return active_tasks
 
 
 # Input Validation
@@ -120,24 +120,24 @@ def task_time_input(default_time: str = None):
 
 def start_new_task_list():
     """Start new task list and return with new tasks"""
-    tasks = []
+    active_tasks = []
 
     while True:
         task_name = task_name_input()
         if not task_name:
             break
         time_spent = '0:00'
-        tasks = add_task(tasks, task_name, time_spent)
+        active_tasks = tasks.add_task(active_tasks, task_name, time_spent)
 
-    return tasks
+    return active_tasks
 
 
-def print_all_tasks(tasks: list):
+def print_all_tasks(active_tasks: list[dict]):
     """Print tasks to screen"""
     print('\n' + Colors.BLUE + 'TASKS:' + Colors.NORMAL + '\n')
-    if len(tasks) == 0:
+    if len(active_tasks) == 0:
         print('No tasks.')
-    for index, task in enumerate(tasks):
+    for index, task in enumerate(active_tasks):
         text_color = Colors.GREEN if task['completed'] else Colors.NORMAL
         time_spent = (f" ({task['time_spent']})"
                       if task['time_spent'] != "0:00"
@@ -155,15 +155,15 @@ def format_seconds_to_time_spent(seconds: int):
     return f"{hours}:{minutes:02}"
 
 
-def format_tasks_to_plaintext(tasks: list):
+def format_tasks_to_plaintext(active_tasks: list[dict]):
     """Return formatted tasks string"""
     formatted_data = ''
 
-    for index, task in enumerate(tasks):
+    for index, task in enumerate(active_tasks):
         completed = '[X]' if task["completed"] else '[ ]'
         formatted_data += (
             f"{completed} {task['name']} ({task['time_spent']})")
-        if index != len(tasks) - 1:
+        if index != len(active_tasks) - 1:
             formatted_data += '\n'
 
     return formatted_data
