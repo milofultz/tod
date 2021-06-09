@@ -192,37 +192,6 @@ class TestUtilitiesFunctions(unittest.TestCase):
         test2_actual = get_tasks(test2_tod_file)
         self.assertEqual(test2_expected, test2_actual)
 
-    def test_get_last_mit(self):
-        test1_track_file = textwrap.dedent("""
-            ---
-            20201022 (5) Title 1
-            
-            * Acc 1
-            * Acc 2
-            
-            > First MIT
-            
-            Journal stuff.
-            
-            Lorem ipsum dolor sit amet.
-            
-            
-            ---
-            20201023 (5) Title 2
-            
-            * Acc 3
-            * Acc 4
-            
-            > Last MIT
-            
-            Journal stuff 2.
-            
-            Lorem ipsum 2 dolor sit amet.
-            """)
-        test1_expected = "Last MIT"
-        test1_actual = get_last_mit(test1_track_file)
-        self.assertEqual(test1_actual, test1_expected)
-
     def test_format_seconds_to_time_spent(self):
         test1_time_input = 3660
         test1_expected = '1:01'
