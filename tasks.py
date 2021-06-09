@@ -15,7 +15,7 @@ def set_completion(task_list, index):
     return task_list
 
 
-def delete_task(task_list, index):
+def delete(task_list, index):
     """Return tasks with task at index removed"""
     del task_list[index]
     return task_list

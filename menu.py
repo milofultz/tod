@@ -3,8 +3,7 @@ import re
 import sys
 
 import tasks
-from tasks import (delete_task,
-                   update_task, move_task, reduce_tasks)
+from tasks import (update_task, move_task, reduce_tasks)
 from utilities import (Colors, clear_screen, show_help,
                        load_data, save_data, format_tasks_to_plaintext,
                        task_number_input, task_name_input, task_time_input,
@@ -63,7 +62,7 @@ def main_menu(active_tasks: list[dict]):
         elif 'd' in command[0]:
             if number is None:
                 number = task_number_input(len(active_tasks))
-            active_tasks = delete_task(active_tasks, number)
+            active_tasks = tasks.delete(active_tasks, number)
             clear_screen()
             print(Colors.PURPLE + 'Task deleted.' + Colors.NORMAL)
         elif 'e' in command[0]:

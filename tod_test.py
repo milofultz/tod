@@ -98,7 +98,7 @@ class TestTasksFunctions(unittest.TestCase):
         test1_actual = tasks.set_completion(test1_set_completion_list, 0)
         self.assertEqual(test1_expected, test1_actual)
 
-    def test_delete_task(self):
+    def test_tasks_delete(self):
         test1_delete_list = [
             {'name': 'First task',
              'time_spent': '0:25',
@@ -118,7 +118,7 @@ class TestTasksFunctions(unittest.TestCase):
              'time_spent': '0:25',
              'completed': True}
         ]
-        test1_actual = delete_task(test1_delete_list, 2)
+        test1_actual = tasks.delete(test1_delete_list, 2)
         self.assertEqual(test1_expected, test1_actual)
 
     def test_move_task(self):
