@@ -1,7 +1,6 @@
 import unittest
 
 import tasks
-from tasks import *
 from utilities import *
 
 
