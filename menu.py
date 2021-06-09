@@ -3,7 +3,6 @@ import re
 import sys
 
 import tasks
-from tasks import (reduce_tasks)
 from utilities import (Colors, clear_screen, show_help,
                        load_data, save_data, format_tasks_to_plaintext,
                        task_number_input, task_name_input, task_time_input,
@@ -94,7 +93,7 @@ def main_menu(active_tasks: list[dict]):
         elif 'q' in command[0]:
             sys.exit()
         elif 'r' in command[0]:
-            active_tasks = reduce_tasks(active_tasks)
+            active_tasks = tasks.reduce(active_tasks)
             print(Colors.PURPLE + 'Tasks reduced.' + Colors.NORMAL)
         elif 's' in command[0]:
             print('Starting new task list...\n')

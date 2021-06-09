@@ -34,7 +34,7 @@ def move(task_list, from_index, to_index):
     return task_list
 
 
-def reduce_tasks(task_list):
+def reduce(task_list):
     """Return tasks with completed tasks removed"""
     task_list = [task for task in task_list if not task["completed"]]
     return task_list
