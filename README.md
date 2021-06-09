@@ -34,18 +34,21 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
 
 ### Commands:
 
-* `[n]` - Start focus time and timer for task `n`
-* `a[n]` - (A)dd task at index `n` and notes separated by a colon
-* `c[n]` - Toggle (C)ompletion of task `n`
-* `d[n]` - (D)elete task `n`
-* `dd` - Delete all tasks
-* `e[n]` - (E)dit task `n`
-* `h` - Print the (H)elp menu
-* `m[n]` - (M)ove task `n`
-* `q` - (Q)uit
-* `r` - (R)educe/remove the completed tasks from the list
-* `s` - (S)tart a new set of daily tasks
+Key | Description
+:---: | ---
+`[n]` | Start focus time and timer for task `n`
+`a[n]` | (A)dd task at index `n` and notes separated by a colon
+`c[n]` | Toggle (C)ompletion of task `n`
+`d[n]` | (D)elete task `n`
+`dd` | Delete all tasks
+`e[n]` | (E)dit task `n`
+`h` | Print the (H)elp menu
+`m[n]` | (M)ove task `n`
+`q` | (Q)uit
+`r` | (R)educe/remove the completed tasks from the list
+`s` | (S)tart a new set of daily tasks
 
 ### Future Improvements
 
 * ~~Add environment variables~~
+* Add ability to count up, not necessarily count down 
