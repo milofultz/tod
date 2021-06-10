@@ -77,8 +77,8 @@ def main_menu(active_tasks: list[dict], archive: str):
                 cls()
             task = active_tasks[number]
             print('\n' + C.BLUE + "Original Task:" + C.NORMAL)
-            print(f"\n{task['name']} ({task['time_spent']})\n{task.get('notes')}\n")
-            updated_task_name, updated_task_notes = task_name_input(task['name'])
+            print(f"\n{task['name']}{': ' + task.get('notes') if task.get('notes') else ''}\n({task['time_spent']})\n")
+            updated_task_name, updated_task_notes = task_name_input(task['name'], task['notes'])
             updated_time_spent = task_time_input(task['time_spent'])
             updated_task = {**task,
                             'name': updated_task_name,

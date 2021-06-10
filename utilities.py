@@ -110,15 +110,16 @@ def task_number_input(length: int):
     return int(number)
 
 
-def task_name_input(prev_name=None) -> (str, str):
+def task_name_input(prev_name = None, prev_notes = '') -> (str, str):
     """Validate task name input"""
     task_name = input('Task Name and Notes: ').strip()
     if task_name == '' and prev_name:
         task_name = prev_name
+        task_notes = prev_notes
     if ':' in task_name:
         task_name, task_notes = task_name.split(':', 1)
     else:
-        task_notes = ''
+        task_notes = prev_notes
     return task_name.strip(), task_notes.strip()
 
 
