@@ -143,9 +143,7 @@ def task_time_input(default_time: str = None):
 
 def start_new_task_list(active_tasks: list[dict], archive: str) -> (list[dict], str):
     """Start new task list and return with new tasks"""
-    print(archive)
     archive += format_tasks_to_plaintext(active_tasks)
-    print(archive)
     active_tasks = []
 
     while True:
