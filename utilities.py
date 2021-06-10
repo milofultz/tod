@@ -66,13 +66,19 @@ def set_env_variables():
             pass
 
 
-def parse_tasks(tod_file_data):
+def parse_tasks(tod_file_data: str) -> (list[dict], str):
     """Return list of task dicts from .tod file"""
     active_tasks = []
     tod_file_data = tod_file_data.split('\n')
+    in_archive = False
+    archive = ''
 
     for task_text in tod_file_data:
         if task_text.strip() == '':
+            continue
+        elif in_archive or task_text.strip() == '---':
+            in_archive = True
+            archive += f"{task_text}\n"
             continue
         elif task_text[0] != '[':
             active_tasks[-1]["notes"] += task_text.strip()
@@ -87,7 +93,7 @@ def parse_tasks(tod_file_data):
             "completed": completed
         })
 
-    return active_tasks
+    return active_tasks, archive
 
 
 # Input Validation
@@ -132,8 +138,11 @@ def task_time_input(default_time: str = None):
 
 # Helper Function
 
-def start_new_task_list():
+def start_new_task_list(active_tasks: list[dict], archive: str) -> (list[dict], str):
     """Start new task list and return with new tasks"""
+    print(archive)
+    archive += format_tasks_to_plaintext(active_tasks)
+    print(archive)
     active_tasks = []
 
     while True:
@@ -148,7 +157,7 @@ def start_new_task_list():
         }
         active_tasks = tasks.add(active_tasks, new_task)
 
-    return active_tasks
+    return active_tasks, archive
 
 
 def print_all_tasks(active_tasks: list[dict], verbose: bool = False):

@@ -9,7 +9,7 @@ from utilities import cls, convert_time_spent_to_seconds, format_seconds_to_time
     task_number_input, task_time_input
 
 
-def main_menu(active_tasks: list[dict]):
+def main_menu(active_tasks: list[dict], archive: str):
     verbose = False
     while True:
         print_all_tasks(active_tasks, verbose)
@@ -105,10 +105,10 @@ def main_menu(active_tasks: list[dict]):
             print(C.PURPLE + 'Tasks reduced.' + C.NORMAL)
         elif 's' in command[0]:
             print('Starting new task list...\n')
-            active_tasks = start_new_task_list()
+            active_tasks, archive = start_new_task_list(active_tasks, archive)
             cls()
         else:
             print(C.WHITE + "Try 'help' for more information." + C.NORMAL)
 
-        data = format_tasks_to_plaintext(active_tasks)
+        data = format_tasks_to_plaintext(active_tasks) + archive
         save_data(data, os.getenv('TOD_FP'))

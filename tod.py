@@ -7,9 +7,10 @@ if __name__ == "__main__":
     set_env_variables()
     try:
         data = load_data(os.getenv('TOD_FP'))
-        tasks = parse_tasks(data)
+        active_tasks, archive = parse_tasks(data)
     except FileNotFoundError:
-        tasks = []
+        active_tasks = []
+        archive = ''
 
     cls()
-    main_menu(tasks)
+    main_menu(active_tasks, archive)
