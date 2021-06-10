@@ -55,7 +55,7 @@ def set_env_variables():
     """Set filepath to user's .tod file"""
     env_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '.env')
     env_data = load_data(env_path)
-    os.environ['TOD_FP'] = os.path.join(os.path.expanduser('~'), 'tasks.tod')
+    os.environ['TOD_FP'] = os.path.join(os.path.expanduser('~'), '.tod')
     for line in env_data.split('\n'):
         if not line:
             continue
