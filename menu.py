@@ -98,8 +98,6 @@ def main_menu(active_tasks: list[dict], archive: str):
             verbose = True if not verbose else False
             cls()
             print(C.PURPLE + 'Notes are now fully visible.' + C.NORMAL)
-        elif 'q' in command[0]:
-            sys.exit()
         elif 'r' in command[0]:
             active_tasks = tasks.reduce(active_tasks)
             print(C.PURPLE + 'Tasks reduced.' + C.NORMAL)
@@ -107,8 +105,15 @@ def main_menu(active_tasks: list[dict], archive: str):
             print('Starting new task list...\n')
             active_tasks, archive = start_new_task_list(active_tasks, archive)
             cls()
-        else:
-            print(C.WHITE + "Try 'help' for more information." + C.NORMAL)
+        elif 'x' in command[0]:
+            if input('Are you sure?').lower()[0] == 'y':
+                archive = ''
+            cls()
 
         data = format_tasks_to_plaintext(active_tasks) + archive
         save_data(data, os.getenv('TOD_FP'))
+
+        if 'q' in command[0]:
+            sys.exit()
+        else:
+            print(C.WHITE + "Try 'help' for more information." + C.NORMAL)

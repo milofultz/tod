@@ -93,6 +93,9 @@ def parse_tasks(tod_file_data: str) -> (list[dict], str):
             "completed": completed
         })
 
+    if archive == '':
+        archive = '---\n'
+
     return active_tasks, archive
 
 
