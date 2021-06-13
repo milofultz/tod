@@ -4,7 +4,6 @@ Plan and manage daily tasks. Deliberately simple so I can stay focused on what I
 
 * Saves tasks in an easy to read plaintext file in the root folder called `~/.tod`
 * Includes built in timer for timeboxing/focused work time
-* Archives past tasks by default when starting a new task list
 
 ### Usage
 
@@ -49,7 +48,6 @@ Key | Description
 `q` | (Q)uit
 `r` | (R)educe/remove the completed tasks from the list
 `s` | (S)tart a new set of daily tasks
-`x` | Delete everything in the archive
 
 ### Future Improvements
 
@@ -65,7 +63,6 @@ Key | Description
   [PROJECTS]
   [ ] Stuff: thing
   
-  [ARCHIVE]
   ...
   ```
 

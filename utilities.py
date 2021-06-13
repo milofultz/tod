@@ -66,26 +66,21 @@ def set_env_variables():
             pass
 
 
-def parse_tasks(tod_file_data: str) -> (list[dict], str):
+def parse_tasks(tod_file_data: str) -> list[dict]:
     """Return list of task dicts from .tod file"""
     active_tasks = []
     tod_file_data = tod_file_data.split('\n')
-    in_archive = False
-    archive = ''
 
-    for task_text in tod_file_data:
-        if task_text.strip() == '':
+    for line in tod_file_data:
+        line = line.strip()
+        if line == '':
             continue
-        elif in_archive or task_text.strip() == '---':
-            in_archive = True
-            archive += f"{task_text}\n"
+        elif line[0] != '[':
+            active_tasks[-1]["notes"] += line
             continue
-        elif task_text[0] != '[':
-            active_tasks[-1]["notes"] += task_text.strip()
-            continue
-        task_name = task_text[4:-7]
-        time_spent = task_text[-5:-1]
-        completed = True if task_text[1] == 'X' else False
+        task_name = line[4:-7]
+        time_spent = line[-5:-1]
+        completed = True if line[1] == 'X' else False
         active_tasks.append({
             "name": task_name,
             "time_spent": time_spent,
@@ -93,10 +88,7 @@ def parse_tasks(tod_file_data: str) -> (list[dict], str):
             "completed": completed
         })
 
-    if archive == '':
-        archive = '---\n'
-
-    return active_tasks, archive
+    return active_tasks
 
 
 # Input Validation
@@ -142,9 +134,8 @@ def task_time_input(default_time: str = None):
 
 # Helper Function
 
-def start_new_task_list(active_tasks: list[dict], archive: str) -> (list[dict], str):
+def start_new_task_list() -> list[dict]:
     """Start new task list and return with new tasks"""
-    archive += format_tasks_to_plaintext(active_tasks)
     active_tasks = []
 
     while True:
@@ -159,7 +150,7 @@ def start_new_task_list(active_tasks: list[dict], archive: str) -> (list[dict], 
         }
         active_tasks = tasks.add(active_tasks, new_task)
 
-    return active_tasks, archive
+    return active_tasks
 
 
 def print_all_tasks(active_tasks: list[dict], verbose: bool = False):
