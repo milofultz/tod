@@ -2,6 +2,8 @@ def add(active_tasks: list[dict], new_task: dict, index: int = None):
     """Return tasks with task inserted at index"""
     if index is None:
         index = len(active_tasks)
+    else:
+        index = min(len(active_tasks), index)
     active_tasks.insert(index, new_task)
     return active_tasks
 
