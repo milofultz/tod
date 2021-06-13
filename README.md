@@ -1,7 +1,7 @@
 # Tod
 
 Plan and manage daily tasks. Deliberately simple so I can stay focused on what I need to do. 
- 
+
 * Saves tasks in an easy to read plaintext file in the root folder called `~/.tod`
 * Includes built in timer for timeboxing/focused work time
 * Archives past tasks by default when starting a new task list
@@ -24,7 +24,7 @@ The filepaths for the Tod tasks file should be in an `.env` file in the root dir
 The `.env` should use these exact variable names with `{filepath}` being replaced by your desired filepath:
 
     TOD_FP={filepath}
-    
+
 ---
 
 To reduce the friction of using this every day, I made an alias in my terminal so I can just write `tod` to bring up the program:
@@ -53,5 +53,20 @@ Key | Description
 
 ### Future Improvements
 
-* ~~Add environment variables~~
-* Add ability to count up, not necessarily count down 
+* Add ability to count up, not necessarily count down, for time spent
+
+* Add sections for task list, e.g.
+
+  ```ini
+  [WORK]
+  [ ] Thing to do: yeah
+  [X] Other thing
+  
+  [PROJECTS]
+  [ ] Stuff: thing
+  
+  [ARCHIVE]
+  ...
+  ```
+
+  
