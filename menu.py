@@ -99,8 +99,8 @@ def main_menu(active_tasks: list[dict]):
             print_all_tasks(active_tasks)
             if selected_number is None:
                 selected_number = task_number_input(number_of_tasks)
-            cls()
             to_number = int(input(f'Move task {selected_number} to where? '))
+            cls()
             active_tasks = tasks.move(active_tasks, selected_number, to_number)
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
         elif command == 'n':

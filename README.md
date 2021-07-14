@@ -1,6 +1,6 @@
 # Tod
 
-Plan and manage daily tasks. Deliberately simple so I can stay focused on what I need to do. 
+Plan and manage daily tasks. Deliberately simple so I can stay focused on what I need to do.
 
 * Saves tasks in an easy to read plaintext file in the root folder called `~/.tod`
 * Includes built in timer for timeboxing/focused work time
@@ -50,7 +50,7 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
 
 ### Future Improvements
 
-* Fix move screen "Move Where" not clearing correctly
+* Add way to separate from:to in move
 
 * Show notes with title on timer page
 
@@ -66,11 +66,11 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
   [WORK]
   [ ] Thing to do: yeah
   [X] Other thing
-  
+
   [PROJECTS]
   [ ] Stuff: thing
-  
+
   ...
   ```
 
-  
+
