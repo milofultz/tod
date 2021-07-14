@@ -38,8 +38,8 @@ def main_menu(active_tasks: list[dict]):
             show_help()
         elif not command and selected_number is not None:
             task = active_tasks[selected_number]
-            time_spent_in_seconds = spend_time_on_task(task['name'])
-            prev_time_spent_in_seconds = convert_time_spent_to_seconds(task['time_spent'])
+            time_spent_in_seconds = spend_time_on_task(task.get('name'), task.get('notes'))
+            prev_time_spent_in_seconds = convert_time_spent_to_seconds(task.get('time_spent'))
             total_time_spent = prev_time_spent_in_seconds + time_spent_in_seconds
             formatted_time_spent = format_seconds_to_time_spent(total_time_spent)
             updated_task = {**task, 'time_spent': formatted_time_spent}

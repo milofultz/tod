@@ -198,27 +198,27 @@ def format_tasks_to_plaintext(active_tasks: list[dict]):
 
 # Timer
 
-def spend_time_on_task(task_name):
+def spend_time_on_task(task_name, task_notes):
     """Return time spent on task"""
     print(Colors.WHITE + 'Default timer length is: ' +
           Colors.RED + DEFAULT_TIMER_LENGTH + Colors.NORMAL + '\n')
     timer_length = task_time_input(DEFAULT_TIMER_LENGTH)
 
     timestamp_before_timer = int(time.time())
-    timer(task_name, timer_length)
+    timer(task_name, task_notes, timer_length)
     timestamp_after_timer = int(time.time())
 
     return timestamp_after_timer - timestamp_before_timer
 
 
-def timer(task_name, timer_length: str):
+def timer(task_name, task_notes, timer_length: str):
     timer_length_seconds = convert_time_spent_to_seconds(timer_length)
 
     elapsed_seconds = 0
     while elapsed_seconds <= timer_length_seconds:
         try:
             cls()
-            print_timer_details(task_name, timer_length, elapsed_seconds)
+            print_timer_details(task_name, task_notes, timer_length, elapsed_seconds)
             time.sleep(1)
             elapsed_seconds += 1
         except KeyboardInterrupt:
@@ -234,8 +234,10 @@ def convert_time_spent_to_seconds(length: str):
     return (int(hours) * 60 + int(minutes)) * 60
 
 
-def print_timer_details(task_name, timer_length, elapsed_seconds):
+def print_timer_details(task_name, task_notes, timer_length, elapsed_seconds):
     print(Colors.YELLOW + task_name + Colors.NORMAL + '\n')
+    if task_notes:
+        print(Colors.GRAY + task_notes + Colors.NORMAL + '\n')
     print(f'Timer Length: {Colors.GREEN}{timer_length}:00{Colors.NORMAL}')
     print(f'Elapsed Time: {elapsed_seconds // 3600}:' +
           f'{((elapsed_seconds // 60) % 60):02}:' +
