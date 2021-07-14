@@ -110,7 +110,8 @@ def main_menu(active_tasks: list[dict]):
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
         elif command == 'n':
             verbose = True if not verbose else False
-            print(C.PURPLE + 'Notes are now fully visible.' + C.NORMAL)
+            message = 'Notes are now fully visible.' if verbose else 'Notes are now truncated.'
+            print(C.PURPLE + message + C.NORMAL)
         elif command == 'q':
             sys.exit()
         elif command == 'r':

@@ -51,8 +51,6 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
 
 ### Future Improvements
 
-- Show notes with title on timer page
-
 - Allow maintaining of title or notes in edit mode (use `:` at start to keep title, use no `:` to keep notes)
 
 - Maybe use `::` to separate to make it not throw in weird ways

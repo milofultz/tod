@@ -2,6 +2,7 @@ import math
 import os
 import re
 import time
+from typing import Tuple
 
 from config import (Colors, TERMINAL_HEIGHT, DEFAULT_TIMER_LENGTH)
 import tasks
@@ -102,7 +103,7 @@ def task_number_input(length: int):
     return int(number)
 
 
-def task_name_input(prev_name = None, prev_notes = '') -> (str, str):
+def task_name_input(prev_name = None, prev_notes = '') -> Tuple[str, str]:
     """Validate task name input"""
     task_name = input('Task Name and Notes: ').strip()
     if task_name == '' and prev_name:
@@ -186,7 +187,7 @@ def format_tasks_to_plaintext(active_tasks: list[dict]):
     """Return formatted tasks string"""
     formatted_data = ''
 
-    for index, task in enumerate(active_tasks):
+    for _, task in enumerate(active_tasks):
         completed = '[X]' if task["completed"] else '[ ]'
         formatted_data += f"{completed} {task['name']} ({task['time_spent']})"
         if notes := task.get('notes'):
