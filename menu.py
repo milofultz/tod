@@ -19,8 +19,12 @@ def main_menu(active_tasks: list[dict]):
         raw_command = input('► ').lower()
 
         cls()
-        command, selected_number = re.match(r'([A-Za-z]*)(\d+)?', raw_command).groups()
-        selected_number = int(selected_number) if selected_number else None
+        parsed_command = re.match(r'([A-Za-z]*)(\d+)?:?(\d+)?', raw_command).groups()
+        command, selected_number, dest_number = parsed_command
+        if selected_number:
+            selected_number = int(selected_number)
+        if dest_number:
+            dest_number = int(dest_number)
         number_of_tasks = len(active_tasks)
         if selected_number is not None \
                 and selected_number >= number_of_tasks \
@@ -99,9 +103,10 @@ def main_menu(active_tasks: list[dict]):
             print_all_tasks(active_tasks)
             if selected_number is None:
                 selected_number = task_number_input(number_of_tasks)
-            to_number = int(input(f'Move task {selected_number} to where? '))
+            if not dest_number:
+                dest_number = int(input(f'Move task {selected_number} to where? '))
             cls()
-            active_tasks = tasks.move(active_tasks, selected_number, to_number)
+            active_tasks = tasks.move(active_tasks, selected_number, dest_number)
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
         elif command == 'n':
             verbose = True if not verbose else False
