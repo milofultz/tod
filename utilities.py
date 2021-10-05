@@ -96,15 +96,23 @@ def parse_tasks(tod_file_data: str) -> list[dict]:
 
 def task_number_input(length: int):
     """Validate task number input"""
-    number = input('Which task: ')
-    if number == '' or int(number) >= length:
-        print(Colors.RED + "No such task." + Colors.NORMAL)
+    number = ''
+    while number == '':
+        try:
+            number = int(input('Which task: '))
+        except ValueError:
+            cls()
+            print(Colors.RED + "Please enter a number." + Colors.NORMAL)
+            number = ''
+    if int(number) >= length:
         return None
-    return int(number)
+    else:
+        return int(number)
 
 
 def task_name_input(prev_name = None, prev_notes = '') -> Tuple[str, str]:
     """Validate task name input"""
+    task_name = task_notes = ''
     task_input = input('Task Name :: Notes ▶ ').strip()
     if task_input == '' and prev_name:
         task_name = prev_name
@@ -118,6 +126,7 @@ def task_name_input(prev_name = None, prev_notes = '') -> Tuple[str, str]:
     elif '::' in task_input:
         task_name, task_notes = task_input.split('::', 1)
     else:
+        task_name = task_input
         task_notes = prev_notes
     return task_name.strip(), task_notes.strip()
 

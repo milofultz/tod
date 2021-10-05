@@ -60,8 +60,9 @@ def main_menu(active_tasks: list[dict]):
             if selected_number is None:
                 selected_number = task_number_input(number_of_tasks)
             cls()
-            active_tasks = tasks.set_completion(active_tasks, selected_number)
-            print(C.PURPLE + 'Task updated.' + C.NORMAL)
+            if selected_number is not None:
+                active_tasks = tasks.set_completion(active_tasks, selected_number)
+                print(C.PURPLE + 'Task updated.' + C.NORMAL)
         elif command == 'dd':
             active_tasks = []
             print(C.PURPLE + 'Tasks deleted.' + C.NORMAL)
