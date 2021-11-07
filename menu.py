@@ -73,7 +73,7 @@ def main_menu(active_tasks: list[dict]):
             active_tasks = tasks.delete(active_tasks, selected_number)
             print(C.PURPLE + 'Task deleted.' + C.NORMAL)
         elif command == 'e':
-            if number_of_tasks is 0:
+            if number_of_tasks == 0:
                 print(C.PURPLE + 'No tasks to edit.' + C.NORMAL)
                 continue
             if selected_number is None:
@@ -98,7 +98,7 @@ def main_menu(active_tasks: list[dict]):
         elif command == 'h':
             show_help()
         elif command == 'm':
-            if number_of_tasks is 0:
+            if number_of_tasks == 0:
                 print(C.PURPLE + 'No tasks to move.' + C.NORMAL)
                 continue
             print_all_tasks(active_tasks)
