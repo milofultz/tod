@@ -48,6 +48,9 @@ def main_menu(active_tasks: list[dict]):
         elif command == 'a':
             task_name, task_notes = task_name_input()
             cls()
+            if not task_name:
+                print(C.RED + 'Cannot add empty task.' + C.NORMAL)
+                continue
             new_task = {
                 'name': task_name,
                 'time_spent': '0:00',
