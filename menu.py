@@ -107,7 +107,7 @@ def main_menu(active_tasks: list[dict]):
             print_all_tasks(active_tasks)
             if selected_number is None:
                 selected_number = task_number_input(number_of_tasks)
-            if not dest_number:
+            if dest_number is None:
                 dest_number = int(input(f'Move task {selected_number} to where? '))
             cls()
             active_tasks = tasks.move(active_tasks, selected_number, dest_number)
