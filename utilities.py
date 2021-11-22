@@ -8,6 +8,10 @@ from config import (Colors, TERMINAL_HEIGHT, DEFAULT_TIMER_LENGTH)
 import tasks
 
 
+CHECK_DELIMITER = re.compile(r'\[([Xx\s])]\s(.*)\s\((\d+:\d{2})\)')
+LIST_DELIMITER = re.compile(r'\[([A-Z0-9\s]{2,})+]')
+
+
 # Utilities
 
 def cls():
@@ -21,17 +25,22 @@ def show_help():
           f'{Colors.BLACK_ON_WHITE}tod: Plan and manage your daily tasks{Colors.NORMAL}\n'
           f'\n' +
           'CLI Commands:\n' +
-          '  [n]     Start focus time and timer for task `n`\n' +
-          '  a[n]    (A)dd task at index `n`\n' +
-          '  c[n]    Set (C)ompletion of task `n`\n' +
-          '  d[n]    (D)elete task `n`\n' +
-          '  dd      Delete all tasks\n' +
-          '  e[n]    (E)dit task `n`\n' +
-          '  h       Print this (H)elp menu\n' +
-          '  m[n]    (M)ove task `n`\n' +
-          '  q       (Q)uit\n' +
-          '  r       (R)educe/remove the completed tasks from the list\n' +
-          '  s       (S)tart a new set of daily tasks\n')
+          '  [n]       Start focus time and timer for task `n`\n' +
+          '  al        (A)dd a (L)ist\n' +
+          '  a[n]      (A)dd task at index `n`\n' +
+          '  c[n]      Set (C)ompletion of task `n`\n' +
+          '  d[n]      (D)elete task `n`\n' +
+          '  dd        Delete all tasks\n' +
+          '  dl        Delete list\n' +
+          '  e[n]      (E)dit task `n`\n' +
+          '  h         Print this (H)elp menu\n' +
+          '  l         Go to another (L)ist\n' +
+          '  m[n]      (M)ove task `n`\n' +
+          '  m[n]:[x]  (M)ove task `n` to position `x`\n' +
+          '  n         Toggle full (N)otes when printing tasks\n'
+          '  q         (Q)uit\n' +
+          '  r         (R)educe/remove the completed tasks from the list\n' +
+          '  s         (S)tart a new set of daily tasks\n')
     print()
     input('Press enter to continue...')
     cls()
@@ -67,32 +76,56 @@ def set_env_variables():
             pass
 
 
-def parse_tasks(tod_file_data: str) -> list[dict]:
+def parse_tasks(tod_file_data: str) -> (dict[str, list], str):
     """Return list of task dicts from .tod file"""
-    active_tasks = []
+    current_list = 'MAIN'
+    active_tasks = {current_list: list()}
     tod_file_data = tod_file_data.split('\n')
+    first_list = ''
 
     for line in tod_file_data:
         line = line.strip()
-        if line == '':
-            continue
-        elif line[0] != '[':
-            active_tasks[-1]["notes"] += line
-            continue
-        task_name = line[4:-7]
-        time_spent = line[-5:-1]
-        completed = True if line[1] == 'X' else False
-        active_tasks.append({
-            "name": task_name,
-            "time_spent": time_spent,
-            "notes": "",
-            "completed": completed
-        })
+        if match := LIST_DELIMITER.match(line):
+            current_list = match.groups()[0]
+            if not first_list:
+                first_list = current_list
+            if not active_tasks.get(current_list):
+                active_tasks[current_list] = list()
+            else:
+                raise RuntimeError(f"There is already a list named {current_list}. Change that list name and try again.")
+        elif match := CHECK_DELIMITER.match(line):
+            completed, task_name, time_spent = match.groups()
+            # task_name = line[4:-7]
+            # time_spent = line[-5:-1]
+            active_tasks[current_list].append({
+                "name": task_name,
+                "time_spent": time_spent,
+                "notes": "",
+                "completed": completed == 'X'
+            })
+        elif line != "":
+            active_tasks[current_list][-1]["notes"] += line
 
-    return active_tasks
+    return active_tasks, first_list or 'MAIN'
 
 
 # Input Validation
+
+def list_number_input(length: int):
+    """Validate task number input"""
+    number = ''
+    while number == '':
+        try:
+            number = int(input('Which list: '))
+        except ValueError:
+            cls()
+            print(Colors.RED + "Please enter a number." + Colors.NORMAL)
+            number = ''
+    if int(number) >= length:
+        return None
+    else:
+        return int(number)
+
 
 def task_number_input(length: int):
     """Validate task number input"""
@@ -110,7 +143,15 @@ def task_number_input(length: int):
         return int(number)
 
 
-def task_name_input(prev_name = None, prev_notes = '') -> Tuple[str, str]:
+def list_name_input() -> str or None:
+    """Validate list name input"""
+    list_input = input('List Name ▶ ').strip()
+    if list_input == '':
+        return None
+    return list_input.upper()
+
+
+def task_name_input(prev_name=None, prev_notes='') -> Tuple[str, str]:
     """Validate task name input"""
     task_name = task_notes = ''
     task_input = input('Task Name :: Notes ▶ ').strip()
@@ -169,9 +210,17 @@ def start_new_task_list() -> list[dict]:
     return active_tasks
 
 
-def print_all_tasks(active_tasks: list[dict], verbose: bool = False):
+def print_all_lists(task_lists: dict[str, list]):
+    """Print lists to screen"""
+    print('\n' + Colors.BLUE + 'LISTS:' + Colors.NORMAL + '\n')
+    for index, task_list in enumerate(task_lists.keys()):
+        print(f"{index}. {task_list}")
+    print()
+
+
+def print_all_tasks(current_list: str, active_tasks: list[dict], verbose: bool = False):
     """Print tasks to screen"""
-    print('\n' + Colors.BLUE + 'TASKS:' + Colors.NORMAL + '\n')
+    print('\n' + Colors.BLUE + f'TASKS in {current_list} list:' + Colors.NORMAL + '\n')
     if len(active_tasks) == 0:
         print('No tasks.')
     for index, task in enumerate(active_tasks):
@@ -198,16 +247,24 @@ def format_seconds_to_time_spent(seconds: int):
     return f"{hours}:{minutes:02}"
 
 
-def format_tasks_to_plaintext(active_tasks: list[dict]):
+def format_all_tasks_to_plaintext(active_tasks: dict[str, list], current_list: str) -> str:
     """Return formatted tasks string"""
     formatted_data = ''
 
-    for _, task in enumerate(active_tasks):
-        completed = '[X]' if task["completed"] else '[ ]'
-        formatted_data += f"{completed} {task['name']} ({task['time_spent']})"
-        if notes := task.get('notes'):
-            formatted_data += f"\n    {notes}"
-        formatted_data += '\n'
+    for list_name, tasks_list in active_tasks.items():
+        formatted_list = ''
+        formatted_list += f'[{list_name}]\n'
+        for task in tasks_list:
+            completed = '[X]' if task["completed"] else '[ ]'
+            formatted_list += f"{completed} {task['name']} ({task['time_spent']})"
+            if notes := task.get('notes'):
+                formatted_list += f"\n    {notes}"
+            formatted_list += '\n'
+        formatted_list += '\n'
+        if list_name != current_list:
+            formatted_data += formatted_list
+        else:
+            formatted_data = formatted_list + formatted_data
 
     return formatted_data
 

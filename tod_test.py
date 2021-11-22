@@ -1,6 +1,7 @@
 import unittest
 
 import tasks
+from textwrap import dedent
 from utilities import *
 
 
@@ -224,37 +225,51 @@ class TestTasksFunctions(unittest.TestCase):
 class TestUtilitiesFunctions(unittest.TestCase):
 
     def test_parse_tasks(self):
-        test1_tod_file = '[ ] Example 1 (0:00)\n[X] Example 2 (1:01)'
-        test1_expected = [
-            {'name': 'Example 1',
-             'time_spent': '0:00',
-             'notes': '',
-             'completed': False},
-            {'name': 'Example 2',
-             'time_spent': '1:01',
-             'notes': '',
-             'completed': True}
-        ]
+        test1_tod_file = dedent('''\
+            [MAIN]
+            [ ] Example 1 (0:00)
+            [X] Example 2 (1:01)''')
+
+        test1_expected = {
+            'MAIN': [
+                {'name': 'Example 1',
+                 'time_spent': '0:00',
+                 'notes': '',
+                 'completed': False},
+                {'name': 'Example 2',
+                 'time_spent': '1:01',
+                 'notes': '',
+                 'completed': True}
+            ]
+        }
         test1_actual = parse_tasks(test1_tod_file)
         self.assertEqual(test1_actual, test1_expected)
 
         test2_tod_file = ' '
-        test2_expected = []
+        test2_expected = {
+            'MAIN': list()
+        }
         test2_actual = parse_tasks(test2_tod_file)
         self.assertEqual(test2_expected, test2_actual)
 
     def test_parse_tasks_with_notes(self):
-        test1_tod_file = '[ ] Example 1 (0:00)\nLorem ipsum dolor sit amet, consectetur adipiscing elit.\n[X] Example 2 (1:01)'
-        test1_expected = [
-            {'name': 'Example 1',
-             'time_spent': '0:00',
-             'notes': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-             'completed': False},
-            {'name': 'Example 2',
-             'time_spent': '1:01',
-             'notes': '',
-             'completed': True}
-        ]
+        test1_tod_file = dedent('''\
+            [MAIN]
+            [ ] Example 1 (0:00)
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            [X] Example 2 (1:01)''')
+        test1_expected = {
+            'MAIN': [
+                {'name': 'Example 1',
+                 'time_spent': '0:00',
+                 'notes': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                 'completed': False},
+                {'name': 'Example 2',
+                 'time_spent': '1:01',
+                 'notes': '',
+                 'completed': True}
+            ]
+        }
         test1_actual = parse_tasks(test1_tod_file)
         self.assertEqual(test1_actual, test1_expected)
 
@@ -264,46 +279,50 @@ class TestUtilitiesFunctions(unittest.TestCase):
         test1_actual = format_seconds_to_time_spent(test1_time_input)
         self.assertEqual(test1_expected, test1_actual)
 
-    def test_format_tasks_to_plaintext(self):
-        test1_tasks = [
-            {'name': 'First task',
-             'time_spent': '0:25',
-             'notes': '',
-             'completed': False},
-            {'name': 'Second task',
-             'time_spent': '0:25',
-             'notes': '',
-             'completed': True},
-            {'name': 'Third task',
-             'time_spent': '0:25',
-             'notes': '',
-             'completed': False}
-        ]
+    def test_format_all_tasks_to_plaintext(self):
+        test1_tasks = {
+            'MAIN': [
+                {'name': 'First task',
+                 'time_spent': '0:25',
+                 'notes': '',
+                 'completed': False},
+                {'name': 'Second task',
+                 'time_spent': '0:25',
+                 'notes': '',
+                 'completed': True},
+                {'name': 'Third task',
+                 'time_spent': '0:25',
+                 'notes': '',
+                 'completed': False}
+            ]
+        }
         test1_expected = ("[ ] First task (0:25)\n" +
                           "[X] Second task (0:25)\n" +
                           "[ ] Third task (0:25)\n")
-        test1_actual = format_tasks_to_plaintext(test1_tasks)
+        test1_actual = format_all_tasks_to_plaintext(test1_tasks)
         self.assertEqual(test1_expected, test1_actual)
 
-        test2_tasks = [
-            {'name': 'First task',
-             'time_spent': '0:25',
-             'notes': 'Lorem ipsum',
-             'completed': False},
-            {'name': 'Second task',
-             'time_spent': '0:25',
-             'notes': '',
-             'completed': True},
-            {'name': 'Third task',
-             'time_spent': '0:25',
-             'notes': '',
-             'completed': False}
-        ]
+        test2_tasks = {
+            'MAIN': [
+                {'name': 'First task',
+                 'time_spent': '0:25',
+                 'notes': 'Lorem ipsum',
+                 'completed': False},
+                {'name': 'Second task',
+                 'time_spent': '0:25',
+                 'notes': '',
+                 'completed': True},
+                {'name': 'Third task',
+                 'time_spent': '0:25',
+                 'notes': '',
+                 'completed': False}
+            ]
+        }
         test2_expected = ("[ ] First task (0:25)\n" +
                           "    Lorem ipsum\n"
                           "[X] Second task (0:25)\n" +
                           "[ ] Third task (0:25)\n")
-        test2_actual = format_tasks_to_plaintext(test2_tasks)
+        test2_actual = format_all_tasks_to_plaintext(test2_tasks)
         self.assertEqual(test2_expected, test2_actual)
 
     def test_convert_time_spent_to_seconds(self):

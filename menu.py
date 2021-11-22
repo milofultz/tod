@@ -4,19 +4,21 @@ import sys
 
 import tasks
 from utilities import Colors as C
-from utilities import cls, convert_time_spent_to_seconds, format_seconds_to_time_spent, format_tasks_to_plaintext, \
-    print_all_tasks, save_data, show_help, spend_time_on_task, start_new_task_list, task_name_input, \
-    task_number_input, task_time_input
+from utilities import cls, convert_time_spent_to_seconds, format_seconds_to_time_spent, format_all_tasks_to_plaintext, \
+    list_name_input, list_number_input, print_all_lists, print_all_tasks, save_data, show_help, spend_time_on_task, start_new_task_list, \
+    task_name_input, task_number_input, task_time_input
 
 
-def main_menu(active_tasks: list[dict]):
+def main_menu(task_lists: dict[str, list], current_list: str):
     verbose = False
+    active_tasks = task_lists.get(current_list)
     while True:
-        data = format_tasks_to_plaintext(active_tasks)
+        task_lists[current_list] = active_tasks
+        data = format_all_tasks_to_plaintext(task_lists, current_list)
         save_data(data, os.getenv('TOD_FP'))
 
-        print_all_tasks(active_tasks, verbose)
-        raw_command = input('► ').lower()
+        print_all_tasks(current_list, active_tasks, verbose)
+        raw_command = input('► ')
 
         cls()
         parsed_command = re.match(r'([A-Za-z]*)(\d+)?:?(\d+)?', raw_command).groups()
@@ -45,6 +47,16 @@ def main_menu(active_tasks: list[dict]):
             updated_task = {**task, 'time_spent': formatted_time_spent}
             tasks.update(active_tasks, updated_task, selected_number)
             print(C.PURPLE + 'Elapsed time added.' + C.NORMAL)
+        elif command == 'al':
+            cls()
+            new_list_name = list_name_input()
+            if not new_list_name:
+                print(C.RED + 'No name entered.' + C.NORMAL)
+                continue
+            task_lists[new_list_name] = list()
+            current_list = new_list_name
+            active_tasks = task_lists[current_list]
+            print(C.PURPLE + 'List created.' + C.NORMAL)
         elif command == 'a':
             task_name, task_notes = task_name_input()
             cls()
@@ -69,6 +81,16 @@ def main_menu(active_tasks: list[dict]):
         elif command == 'dd':
             active_tasks = []
             print(C.PURPLE + 'Tasks deleted.' + C.NORMAL)
+        elif command == 'dl':
+            print_all_lists(task_lists)
+            list_names = task_lists.keys()
+            selected_number = list_number_input(len(list_names))
+            cls()
+            active_list = list(list_names)[selected_number]
+            if active_list == current_list:
+                active_list = list(list_names)[0]
+            del task_lists[active_list]
+            print(C.PURPLE + 'List deleted.' + C.NORMAL)
         elif command == 'd':
             if selected_number is None:
                 selected_number = task_number_input(number_of_tasks)
@@ -80,7 +102,7 @@ def main_menu(active_tasks: list[dict]):
                 print(C.PURPLE + 'No tasks to edit.' + C.NORMAL)
                 continue
             if selected_number is None:
-                print_all_tasks(active_tasks)
+                print_all_tasks(current_list, active_tasks)
                 selected_number = task_number_input(number_of_tasks)
                 cls()
             task = active_tasks[selected_number]
@@ -100,11 +122,19 @@ def main_menu(active_tasks: list[dict]):
             print(C.PURPLE + 'Task updated.' + C.NORMAL)
         elif command == 'h':
             show_help()
+        elif command == 'l':
+            print_all_lists(task_lists)
+            list_names = task_lists.keys()
+            selected_number = list_number_input(len(list_names))
+            cls()
+            current_list = list(list_names)[selected_number]
+            active_tasks = task_lists.get(current_list)
+            print(C.PURPLE + 'List selected.' + C.NORMAL)
         elif command == 'm':
             if number_of_tasks == 0:
                 print(C.PURPLE + 'No tasks to move.' + C.NORMAL)
                 continue
-            print_all_tasks(active_tasks)
+            print_all_tasks(current_list, active_tasks)
             if selected_number is None:
                 selected_number = task_number_input(number_of_tasks)
             if dest_number is None:

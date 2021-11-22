@@ -3,6 +3,7 @@
 Plan and manage daily tasks. Deliberately simple so I can stay focused on what I need to do.
 
 - Saves tasks in an easy to read plaintext file in the root folder called `~/.tod`
+- Maintains multiple lists for using with different projects
 - Includes built in timer for timeboxing/focused work time
 
 ## Usage
@@ -22,12 +23,15 @@ On the left is the **task number**, followed by the **task name**, the **time sp
 |    Key     | Description                                               |
 | :--------: | --------------------------------------------------------- |
 |   `[n]`    | Start focus time and timer for task `n`                   |
+|    `al`    | (Add) a new (L)ist and select it                          |
 |   `a[n]`   | (A)dd task at index `n` and notes separated by two colons |
 |   `c[n]`   | Toggle (C)ompletion of task `n`                           |
 |   `d[n]`   | (D)elete task `n`                                         |
-|    `dd`    | Delete all tasks                                          |
+|    `dd`    | (D)elete all tasks                                        |
+|    `dl`    | (D)elete (L)ist                                           |
 |   `e[n]`   | (E)dit task `n`                                           |
 |    `h`     | Print the (H)elp menu                                     |
+|    `l`     | Select another (L)ist                                     |
 |   `m[n]`   | (M)ove task `n`                                           |
 | `m[n]:[x]` | (M)ove task `n` to position `x`                           |
 |    `n`     | Toggle full (N)otes when printing tasks                   |
@@ -56,17 +60,7 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
 ### Roadmap
 
 - Ensure tests are up-to-date with all functionality
-- Make tests work with standard `python3 -m unittest` call
-- Add multiple items in a row a la `s` command, but not destructive. Thinking something like `aa`.
-- Maintain multiple task lists (below, as a possible example) and switch lists with something like `l` to view/`l[n]` to switch
 
-  ```ini
-  [WORK]
-  [ ] Thing to do: yeah
-      Some notes about the thing
-  [X] Other thing
-  
-  [PROJECTS]
-  [ ] Stuff: thing
-  ...
-  ```
+- Make tests work with standard `python3 -m unittest` call
+
+- Add multiple items in a row a la `s` command, but not destructive. Thinking something like `aa`.
