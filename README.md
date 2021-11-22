@@ -53,19 +53,20 @@ To reduce the friction of using this every day, I made an alias in my terminal s
 
 Take the above code and copy it into your `~/.bashrc` file. After completing this, run `source ~/.bashrc` for the new changes to be active.
 
-### Future Improvements
+### Roadmap
 
-- Add ability to count up, not necessarily count down, for time spent
-
-- Add sections for task list, e.g.
+- Ensure tests are up-to-date with all functionality
+- Make tests work with standard `python3 -m unittest` call
+- Add multiple items in a row a la `s` command, but not destructive. Thinking something like `aa`.
+- Maintain multiple task lists (below, as a possible example) and switch lists with something like `l` to view/`l[n]` to switch
 
   ```ini
   [WORK]
   [ ] Thing to do: yeah
+      Some notes about the thing
   [X] Other thing
   
   [PROJECTS]
   [ ] Stuff: thing
-  
   ...
   ```
