@@ -60,7 +60,6 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
 ### Roadmap
 
 - Ensure tests are up-to-date with all functionality
-
 - Make tests work with standard `python3 -m unittest` call
-
 - Add multiple items in a row a la `s` command, but not destructive. Thinking something like `aa`.
+- Add ability to edit the name of a list
