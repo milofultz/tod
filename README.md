@@ -8,6 +8,8 @@ Plan and manage daily tasks. Deliberately simple so I can stay focused on what I
 
 ## Usage
 
+Run `python3 tod.py`. 
+
 Tasks on screen are shown like so:
 
 ```
@@ -17,6 +19,10 @@ Tasks on screen are shown like so:
 ```
 
 On the left is the **task number**, followed by the **task name**, the **time spent** on that task so far, if any, and lastly any **note** you left regarding that task. Time spent can be changed manually or can be changed automatically through use of the timer. A green task represents a completed task.
+
+### Flags
+
+You can use the `-p` flag to enable Pomodoro mode, which will automatically run a 5-minute break timer once you have completed your session. 
 
 ### Commands
 
@@ -63,3 +69,5 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
 - Make tests work with standard `python3 -m unittest` call
 - Add multiple items in a row a la `s` command, but not destructive. Thinking something like `aa`.
 - Add ability to edit the name of a list
+- Add ability to move a task from one list to another
+- Make input handling better. Reject unacceptable characters

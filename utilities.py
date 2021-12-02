@@ -271,22 +271,26 @@ def format_all_tasks_to_plaintext(active_tasks: dict[str, list], current_list: s
 
 # Timer
 
-def spend_time_on_task(task_name, task_notes):
+def spend_time_on_task(task_name, task_notes, pomodoro: bool):
     """Return time spent on task"""
     print(Colors.WHITE + 'Default timer length is: ' +
           Colors.RED + DEFAULT_TIMER_LENGTH + Colors.NORMAL + '\n')
     timer_length = task_time_input(DEFAULT_TIMER_LENGTH)
 
     timestamp_before_timer = int(time.time())
-    timer(task_name, task_notes, timer_length)
+    completed = timer(task_name, task_notes, timer_length)
     timestamp_after_timer = int(time.time())
+
+    if completed and pomodoro:
+        timer('Break', 'This is your pomodoro break. Get up and go do something else for a bit.', '0:05')
 
     return timestamp_after_timer - timestamp_before_timer
 
 
-def timer(task_name, task_notes, timer_length: str):
+def timer(task_name, task_notes, timer_length: str) -> bool:
     timer_length_seconds = convert_time_spent_to_seconds(timer_length)
 
+    completed = False
     elapsed_seconds = 0
     while elapsed_seconds <= timer_length_seconds:
         try:
@@ -299,7 +303,10 @@ def timer(task_name, task_notes, timer_length: str):
 
     if elapsed_seconds >= timer_length_seconds:
         alarm(5)
+        completed = True
+
     cls()
+    return completed
 
 
 def convert_time_spent_to_seconds(length: str):

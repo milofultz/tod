@@ -1,3 +1,4 @@
+from argparse import Namespace
 import os
 import re
 import sys
@@ -9,7 +10,7 @@ from utilities import cls, convert_time_spent_to_seconds, format_seconds_to_time
     task_name_input, task_number_input, task_time_input
 
 
-def main_menu(task_lists: dict[str, list], current_list: str):
+def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespace):
     verbose = False
     active_tasks = task_lists.get(current_list)
     while True:
@@ -40,7 +41,7 @@ def main_menu(task_lists: dict[str, list], current_list: str):
             show_help()
         elif not command and selected_number is not None:
             task = active_tasks[selected_number]
-            time_spent_in_seconds = spend_time_on_task(task.get('name'), task.get('notes'))
+            time_spent_in_seconds = spend_time_on_task(task.get('name'), task.get('notes'), arguments.pomodoro)
             prev_time_spent_in_seconds = convert_time_spent_to_seconds(task.get('time_spent'))
             total_time_spent = prev_time_spent_in_seconds + time_spent_in_seconds
             formatted_time_spent = format_seconds_to_time_spent(total_time_spent)
