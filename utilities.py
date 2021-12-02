@@ -153,7 +153,6 @@ def list_name_input() -> str or None:
 
 def task_name_input(prev_name=None, prev_notes='') -> Tuple[str, str]:
     """Validate task name input"""
-    task_name = task_notes = ''
     task_input = input('Task Name :: Notes ▶ ').strip()
     if task_input == '' and prev_name:
         task_name = prev_name
@@ -278,10 +277,10 @@ def spend_time_on_task(task_name, task_notes, pomodoro: bool):
     timer_length = task_time_input(DEFAULT_TIMER_LENGTH)
 
     timestamp_before_timer = int(time.time())
-    completed = timer(task_name, task_notes, timer_length)
+    timer_completed = timer(task_name, task_notes, timer_length)
     timestamp_after_timer = int(time.time())
 
-    if completed and pomodoro:
+    if timer_completed and pomodoro:
         timer('Break', 'This is your pomodoro break. Get up and go do something else for a bit.', '0:05')
 
     return timestamp_after_timer - timestamp_before_timer
@@ -290,7 +289,7 @@ def spend_time_on_task(task_name, task_notes, pomodoro: bool):
 def timer(task_name, task_notes, timer_length: str) -> bool:
     timer_length_seconds = convert_time_spent_to_seconds(timer_length)
 
-    completed = False
+    timer_completed = False
     elapsed_seconds = 0
     while elapsed_seconds <= timer_length_seconds:
         try:
@@ -303,10 +302,10 @@ def timer(task_name, task_notes, timer_length: str) -> bool:
 
     if elapsed_seconds >= timer_length_seconds:
         alarm(5)
-        completed = True
+        timer_completed = True
 
     cls()
-    return completed
+    return timer_completed
 
 
 def convert_time_spent_to_seconds(length: str):
