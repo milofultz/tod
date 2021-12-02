@@ -210,11 +210,11 @@ def start_new_task_list() -> list[dict]:
     return active_tasks
 
 
-def print_all_lists(task_lists: dict[str, list]):
+def print_all_lists(list_names: list):
     """Print lists to screen"""
     print('\n' + Colors.BLUE + 'LISTS:' + Colors.NORMAL + '\n')
-    for index, task_list in enumerate(task_lists.keys()):
-        print(f"{index}. {task_list}")
+    for index, list_name in enumerate(list_names):
+        print(f"{index}. {list_name}")
     print()
 
 

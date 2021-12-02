@@ -66,6 +66,7 @@ def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespa
         elif command == 'al':
             cls()
             new_list_name = list_name_input()
+            cls()
             if not new_list_name:
                 print(C.RED + 'No name entered.' + C.NORMAL)
                 continue
@@ -98,14 +99,14 @@ def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespa
             active_tasks = []
             print(C.PURPLE + 'Tasks deleted.' + C.NORMAL)
         elif command == 'dl':
-            print_all_lists(task_lists)
-            list_names = task_lists.keys()
+            list_names = list(task_lists.keys())
+            print_all_lists(list_names)
             selected_number = list_number_input(len(list_names))
             cls()
-            active_list = list(list_names)[selected_number]
-            if active_list == current_list:
-                active_list = list(list_names)[0]
-            del task_lists[active_list]
+            selected_list = list_names[selected_number]
+            del task_lists[selected_list]
+            if selected_list == current_list:
+                current_list = list_names[0]
             print(C.PURPLE + 'List deleted.' + C.NORMAL)
         elif command == 'd':
             if selected_number is None:
