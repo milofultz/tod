@@ -29,6 +29,7 @@ You can use the `-p` flag to enable Pomodoro mode, which will automatically run 
 |    Key     | Description                                               |
 | :--------: | --------------------------------------------------------- |
 |   `[n]`    | Start focus time and timer for task `n`                   |
+|    `aa`    | (Add) multiple new tasks to end of list                   |
 |    `al`    | (Add) a new (L)ist and select it                          |
 |   `a[n]`   | (A)dd task at index `n` and notes separated by two colons |
 |   `c[n]`   | Toggle (C)ompletion of task `n`                           |
@@ -67,7 +68,6 @@ Take the above code and copy it into your `~/.bashrc` file. After completing thi
 
 - Ensure tests are up-to-date with all functionality
 - Make tests work with standard `python3 -m unittest` call
-- Add multiple items in a row a la `s` command, but not destructive. Thinking something like `aa`.
 - Add ability to edit the name of a list
 - Add ability to move a task from one list to another
 - Make input handling better. Reject unacceptable characters

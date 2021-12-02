@@ -26,6 +26,7 @@ def show_help():
           f'\n' +
           'CLI Commands:\n' +
           '  [n]       Start focus time and timer for task `n`\n' +
+          '  aa        (Add) multiple new tasks to end of list\n' +
           '  al        (A)dd a (L)ist\n' +
           '  a[n]      (A)dd task at index `n`\n' +
           '  c[n]      Set (C)ompletion of task `n`\n' +

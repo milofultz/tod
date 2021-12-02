@@ -48,6 +48,21 @@ def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespa
             updated_task = {**task, 'time_spent': formatted_time_spent}
             tasks.update(active_tasks, updated_task, selected_number)
             print(C.PURPLE + 'Elapsed time added.' + C.NORMAL)
+        elif command == 'aa':
+            cls()
+            while True:
+                task_name, task_notes = task_name_input()
+                if not task_name:
+                    break
+                new_task = {
+                    'name': task_name,
+                    'time_spent': '0:00',
+                    'notes': task_notes,
+                    'completed': False
+                }
+                active_tasks = tasks.add(active_tasks, new_task, selected_number)
+            cls()
+            print(C.PURPLE + 'Tasks added.' + C.NORMAL)
         elif command == 'al':
             cls()
             new_list_name = list_name_input()
