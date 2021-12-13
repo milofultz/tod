@@ -41,6 +41,7 @@ You can use the `-p` flag to enable Pomodoro mode, which will automatically run 
 |    `l`     | Select another (L)ist                                     |
 |   `m[n]`   | (M)ove task `n`                                           |
 | `m[n]:[x]` | (M)ove task `n` to position `x`                           |
+|  `ml[n]`   | (M)ove task `n` to a different list                       |
 |    `n`     | Toggle full (N)otes when printing tasks                   |
 |    `q`     | (Q)uit                                                    |
 |    `r`     | (R)educe/remove the completed tasks from the list         |

@@ -38,6 +38,7 @@ def show_help():
           '  l         Go to another (L)ist\n' +
           '  m[n]      (M)ove task `n`\n' +
           '  m[n]:[x]  (M)ove task `n` to position `x`\n' +
+          '  ml[n]     (M)ove task `n` to a different list\n' +
           '  n         Toggle full (N)otes when printing tasks\n'
           '  q         (Q)uit\n' +
           '  r         (R)educe/remove the completed tasks from the list\n' +
