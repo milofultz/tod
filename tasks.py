@@ -32,6 +32,13 @@ def move(active_tasks, from_index, to_index):
     return active_tasks
 
 
+def move_to_list(active_tasks: list[dict], destination_list: list[dict], from_index: int) -> (list[dict], list[dict]):
+    """Return both task lists with selected task moved"""
+    current_task = active_tasks.pop(from_index)
+    destination_list.insert(0, current_task)
+    return active_tasks, destination_list
+
+
 def reduce(active_tasks):
     """Return tasks with completed tasks removed"""
     active_tasks = [task for task in active_tasks if not task["completed"]]

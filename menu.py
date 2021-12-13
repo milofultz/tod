@@ -147,6 +147,22 @@ def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespa
             current_list = list(list_names)[selected_number]
             active_tasks = task_lists.get(current_list)
             print(C.PURPLE + 'List selected.' + C.NORMAL)
+        elif command == 'ml':
+            if number_of_tasks == 0:
+                print(C.PURPLE + 'No tasks to move.' + C.NORMAL)
+                continue
+            print_all_tasks(current_list, active_tasks)
+            if selected_number is None:
+                selected_number = task_number_input(number_of_tasks)
+            cls()
+            list_names = list(task_lists.keys())
+            print_all_lists(list_names)
+            destination_list_number = int(input(f'Move task {selected_number} to which list? '))
+            destination_list = task_lists[list_names[destination_list_number]]
+            cls()
+            active_tasks, destination_list = tasks.move_to_list(active_tasks, destination_list, selected_number)
+            task_lists[list_names[destination_list_number]] = destination_list
+            print(C.PURPLE + 'Task moved.' + C.NORMAL)
         elif command == 'm':
             if number_of_tasks == 0:
                 print(C.PURPLE + 'No tasks to move.' + C.NORMAL)
