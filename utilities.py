@@ -29,6 +29,7 @@ def show_help():
           '  aa        (Add) multiple new tasks to end of list\n' +
           '  al        (A)dd a (L)ist\n' +
           '  a[n]      (A)dd task at index `n`\n' +
+          '  b[n]      (B)reak down a task into smaller tasks and add time spent to task\n' +
           '  c[n]      Set (C)ompletion of task `n`\n' +
           '  d[n]      (D)elete task `n`\n' +
           '  dd        Delete all tasks\n' +
