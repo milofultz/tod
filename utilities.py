@@ -43,7 +43,8 @@ def show_help():
           '  n         Toggle full (N)otes when printing tasks\n'
           '  q         (Q)uit\n' +
           '  r         (R)educe/remove the completed tasks from the list\n' +
-          '  s         (S)tart a new set of daily tasks\n')
+          '  s         (S)tart a new set of daily tasks\n' +
+          '  t         Start a new (T)imer\n')
     print()
     input('Press enter to continue...')
     cls()
@@ -273,7 +274,7 @@ def format_all_tasks_to_plaintext(active_tasks: dict[str, list], current_list: s
 
 # Timer
 
-def spend_time_on_task(task_name, task_notes, pomodoro: bool):
+def spend_time_on_task(task_name, task_notes, pomodoro: bool = False):
     """Return time spent on task"""
     print(Colors.WHITE + 'Default timer length is: ' +
           Colors.RED + DEFAULT_TIMER_LENGTH + Colors.NORMAL + '\n')

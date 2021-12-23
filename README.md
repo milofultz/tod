@@ -26,27 +26,28 @@ You can use the `-p` flag to enable Pomodoro mode, which will automatically run 
 
 ### Commands
 
-|    Key     | Description                                               |
+|    Key     | Description |
 | :--------: | --------------------------------------------------------- |
-|   `[n]`    | Start focus time and timer for task `n`                   |
-|    `aa`    | (Add) multiple new tasks to end of list                   |
-|    `al`    | (Add) a new (L)ist and select it                          |
+|   `[n]`    | Start focus time and timer for task `n` |
+|    `aa`    | (A)dd multiple new tasks to end of list |
+|    `al`    | (A)dd a new (L)ist and select it |
 |   `a[n]`   | (A)dd task at index `n` and notes separated by two colons |
-|   `b[n]`   | (B)reak down a large task into smaller tasks              |
-|   `c[n]`   | Toggle (C)ompletion of task `n`                           |
-|   `d[n]`   | (D)elete task `n`                                         |
-|    `dd`    | (D)elete all tasks                                        |
-|    `dl`    | (D)elete (L)ist                                           |
-|   `e[n]`   | (E)dit task `n`                                           |
-|    `h`     | Print the (H)elp menu                                     |
-|    `l`     | Select another (L)ist                                     |
-|   `m[n]`   | (M)ove task `n`                                           |
-| `m[n]:[x]` | (M)ove task `n` to position `x`                           |
-|  `ml[n]`   | (M)ove task `n` to a different list                       |
-|    `n`     | Toggle full (N)otes when printing tasks                   |
-|    `q`     | (Q)uit                                                    |
-|    `r`     | (R)educe/remove the completed tasks from the list         |
-|    `s`     | (S)tart a new set of daily tasks                          |
+|   `b[n]`   | (B)reak down a task into smaller tasks and add time spent to selected task |
+|   `c[n]`   | Toggle (C)ompletion of task `n` |
+|   `d[n]`   | (D)elete task `n` |
+|    `dd`    | (D)elete all tasks |
+|    `dl`    | (D)elete (L)ist |
+|   `e[n]`   | (E)dit task `n` |
+|    `h`     | Print the (H)elp menu |
+|    `l`     | Select another (L)ist |
+|   `m[n]`   | (M)ove task `n` |
+| `m[n]:[x]` | (M)ove task `n` to position `x` |
+|  `ml[n]`   | (M)ove task `n` to a different list |
+|    `n`     | Toggle full (N)otes when printing tasks |
+|    `q`     | (Q)uit |
+|    `r`     | (R)educe/remove the completed tasks from the list |
+|    `s`     | (S)tart a new set of daily tasks |
+|    `t`     | Start a new (T)imer |
 
 #### Edit
 

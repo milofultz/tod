@@ -220,5 +220,8 @@ def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespa
             print('Starting new task list...\n')
             active_tasks = start_new_task_list()
             cls()
+        elif command == 't':
+            spend_time_on_task('Timer', None)
+            cls()
         else:
             print(C.WHITE + "Try 'help' for more information." + C.NORMAL)
