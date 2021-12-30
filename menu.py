@@ -8,7 +8,7 @@ import tasks
 from utilities import Colors as C
 from utilities import cls, convert_time_spent_to_seconds, format_seconds_to_time_spent, format_all_tasks_to_plaintext, \
     list_name_input, list_number_input, print_all_lists, print_all_tasks, save_data, show_help, spend_time_on_task, start_new_task_list, \
-    task_name_input, task_number_input, task_time_input
+    task_name_input, task_number_input, task_time_input, timer
 
 
 def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespace):
@@ -203,8 +203,13 @@ def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespa
             if selected_number is None:
                 selected_number = task_number_input(number_of_tasks)
             if dest_number is None:
-                dest_number = int(input(f'Move task {selected_number} to where? '))
+               dest_number = input(f'Move task {selected_number} to where? ')
+            if not re.match(r'^\d+$', dest_number):
+                cls()
+                print(C.RED + 'Invalid number.' + C.NORMAL)
+                continue
             cls()
+            dest_number = int(dest_number)
             active_tasks = tasks.move(active_tasks, selected_number, dest_number)
             print(C.PURPLE + 'Tasks updated.' + C.NORMAL)
         elif command == 'n':
