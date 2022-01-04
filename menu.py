@@ -204,7 +204,7 @@ def main_menu(task_lists: dict[str, list], current_list: str, arguments: Namespa
                 selected_number = task_number_input(number_of_tasks)
             if dest_number is None:
                dest_number = input(f'Move task {selected_number} to where? ')
-            if not re.match(r'^\d+$', dest_number):
+            if not type(dest_number) == int:
                 cls()
                 print(C.RED + 'Invalid number.' + C.NORMAL)
                 continue
