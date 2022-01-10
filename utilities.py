@@ -4,12 +4,17 @@ import re
 import time
 from typing import Tuple
 
+from playsound import playsound
+
 from config import (Colors, TERMINAL_HEIGHT, DEFAULT_TIMER_LENGTH)
 import tasks
 
 
 CHECK_DELIMITER = re.compile(r'\[([Xx\s])]\s(.*)\s\((\d+:\d{2})\)')
 LIST_DELIMITER = re.compile(r'\[([A-Z0-9\s]{2,})+]')
+
+TICK_FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tick.wav')
+TICK_LENGTH_MS = 0.099955
 
 
 # Utilities
@@ -299,7 +304,8 @@ def timer(task_name, task_notes, timer_length: str) -> bool:
         try:
             cls()
             print_timer_details(task_name, task_notes, timer_length, elapsed_seconds)
-            time.sleep(1)
+            playsound(TICK_FILENAME)
+            time.sleep(1 - TICK_LENGTH_MS)
             elapsed_seconds += 1
         except KeyboardInterrupt:
             break
